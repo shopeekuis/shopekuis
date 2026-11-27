@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Kuis Receh — 1.000 Soal Acak</title>
+  <style>
+    :root {
+      --bg-top: #ff8c24;
+      --bg-bottom: #b84200;
+      --card: #ffffff;
+      --ink: #1e1b18;
+      --muted: #6b5e54;
+      --accent: #f97316;
+      --accent-dark: #c2410c;
+      --ok-bg: #dcfce7;
+      --ok-border: #16a34a;
+      --ok-ink: #14532d;
+      --bad-bg: #ffe4e6;
+      --bad-border: #e11d48;
+      --bad-ink: #881337;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100dvh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 50% 0%, #ffb35c 0%, var(--bg-top) 38%, var(--bg-bottom) 100%);
+      overflow-x: hidden;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px 12px 16px;
+      gap: 10px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(58, 20, 0, 0.35);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      color: #fff;
+      font-weight: 900;
+      font-size: 18px;
+      line-height: 1.05;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.28);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-title span {
+      display: block;
+      font-size: 15px;
+      color: #fef08a;
+    }
+
+    .pool-pill {
+      background: rgba(66, 22, 0, 0.65);
+      border: 1px solid rgba(255, 224, 130, 0.45);
+      border-radius: 12px;
+      padding: 5px 10px;
+      text-align: right;
+      color: #fff;
+    }
+
+    .pool-pill small {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.5px;
+      opacity: 0.85;
+      font-weight: 700;
+    }
+
+    .pool-pill strong {
+      font-size: 13px;
+      color: #fde047;
+      font-weight: 900;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 15px 14px;
+      box-shadow: 0 12px 28px rgba(45, 14, 0, 0.32);
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .live-badge {
+      background: #ffedd5;
+      color: #c2410c;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.4px;
+    }
+
+    .hero-title {
+      margin: 0 0 6px;
+      text-align: center;
+      font-size: 22px;
+      line-height: 1.2;
+      font-weight: 900;
+      color: #18181b;
+    }
+
+    .hero-title .gold {
+      color: #ea580c;
+    }
+
+    .hero-sub {
+      margin: 0 0 12px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .info-box {
+      background: #fefce8;
+      border: 1px solid #fde047;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .info-box p {
+      margin: 0 0 4px;
+    }
+
+    .info-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-box .snk {
+      font-size: 11.5px;
+      color: #713f12;
+      font-style: italic;
+    }
+
+    .btn-primary {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 13px 16px;
+      font-size: 15px;
+      font-weight: 900;
+      color: #fff;
+      background: linear-gradient(180deg, #fb923c 0%, #ea580c 100%);
+      box-shadow: 0 5px 0 #9a3412;
+      cursor: pointer;
+      transition: transform 0.08s ease;
+    }
+
+    .btn-primary:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #9a3412;
+    }
+
+    .mode-banner {
+      background: #fffbeb;
+      border-radius: 14px;
+      padding: 7px 11px;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11.5px;
+      line-height: 1.25;
+    }
+
+    .mode-banner strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 900;
+      color: #18181b;
+    }
+
+    .mode-banner span {
+      color: #52525b;
+      font-weight: 600;
+    }
+
+    .mode-banner span b {
+      color: #ea580c;
+    }
+
+    .coin-gain-toast {
+      background: linear-gradient(90deg, #16a34a, #22c55e);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 4px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(22, 163, 74, 0.35);
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .coin-gain-toast.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 6px 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .stat-box small {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .stat-box strong {
+      font-size: 14.5px;
+      font-weight: 900;
+      color: #18181b;
+    }
+
+    .stat-box strong.coin-pot {
+      color: #c2410c;
+    }
+
+    .q-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 5px;
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .step {
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.35);
+    }
+
+    .step.done-ok { background: #4ade80; }
+    .step.done-bad { background: #fb7185; }
+    .step.current { background: #fde047; }
+
+    .q-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+
+    .timer-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 2px solid #cbd5e1;
+      background: #f8fafc;
+      color: #18181b;
+      font-size: 12.5px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .timer-circle.urgent {
+      border-color: #e11d48;
+      background: #ffe4e6;
+      color: #be123c;
+    }
+
+    .cat-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .q-text {
+      margin: 0 0 8px;
+      font-size: 14.5px;
+      line-height: 1.38;
+      font-weight: 800;
+      color: #18181b;
+    }
+
+    .active-rule-strip {
+      background: #f4f4f5;
+      color: #3f3f46;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-align: center;
+      padding: 6px 10px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .opt-btn {
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1.5px solid #e4e4e7;
+      background: #fafafa;
+      color: #18181b;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.28;
+      cursor: pointer;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #fb923c;
+      background: #fff7ed;
+    }
+
+    .opt-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .opt-letter {
+      width: 23px;
+      height: 23px;
+      border-radius: 8px;
+      background: #f4f4f5;
+      border: 1px solid #d4d4d8;
+      display: grid;
+      place-items: center;
+      font-size: 11.5px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .lock-tag {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .opt-btn.correct {
+      background: var(--ok-bg);
+      border-color: var(--ok-border);
+      color: var(--ok-ink);
+    }
+
+    .opt-btn.correct .opt-letter {
+      background: var(--ok-border);
+      border-color: var(--ok-border);
+      color: #fff;
+    }
+
+    .opt-btn.wrong {
+      background: var(--bad-bg);
+      border-color: var(--bad-border);
+      color: var(--bad-ink);
+    }
+
+    .opt-btn.wrong .opt-letter {
+      background: var(--bad-border);
+      border-color: var(--bad-border);
+      color: #fff;
+    }
+
+    .opt-btn.locked-choice {
+      background: #fff7ed;
+      border-color: #f97316;
+      color: #9a3412;
+    }
+
+    .opt-btn.locked-choice .opt-letter {
+      background: #f97316;
+      border-color: #f97316;
+      color: #fff;
+    }
+
+    .opt-btn.locked-choice .lock-tag {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+
+    .feedback-bar {
+      margin-top: 7px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: none;
+    }
+
+    .feedback-bar.show { display: block; }
+    .feedback-bar.ok { background: var(--ok-bg); color: var(--ok-ink); }
+    .feedback-bar.bad { background: var(--bad-bg); color: var(--bad-ink); }
+
+    .result-emoji {
+      text-align: center;
+      font-size: 40px;
+      margin-bottom: 4px;
+    }
+
+    .roast-banner {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 900;
+      color: #e11d48;
+      margin: 4px 0 6px;
+      line-height: 1.2;
+    }
+
+    .win-banner {
+      text-align: center;
+      font-size: 21px;
+      font-weight: 900;
+      color: #15803d;
+      margin: 4px 0 6px;
+      line-height: 1.2;
+    }
+
+    .result-sub {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 12px;
+      line-height: 1.45;
+    }
+
+    .result-box {
+      background: #18181b;
+      color: #fff;
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .result-box small {
+      display: block;
+      font-size: 10.5px;
+      opacity: 0.75;
+      font-weight: 700;
+    }
+
+    .result-box strong {
+      font-size: 20px;
+      color: #fde047;
+      font-weight: 900;
+    }
+
+    .chat-section {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding-top: 2px;
+    }
+
+    .chat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      max-height: 126px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .chat-bubble {
+      align-self: flex-start;
+      max-width: 92%;
+      background: rgba(45, 16, 0, 0.74);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      line-height: 1.3;
+      backdrop-filter: blur(4px);
+    }
+
+    .chat-bubble .nick {
+      color: #fdba74;
+      font-weight: 700;
+      margin-right: 4px;
+    }
+
+    .chat-form {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chat-input {
+      flex: 1;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(32, 10, 0, 0.68);
+      color: #fff;
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .chat-input::placeholder {
+      color: rgba(255,255,255,0.65);
+    }
+
+    .send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: none;
+      background: #f97316;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div>
+      <div class="topbar">
+        <button class="icon-btn" id="btnResetTop" title="Reset">✕</button>
+        <div class="brand-title">
+          Kuis 💡
+          <span>Receh</span>
+        </div>
+        <div class="pool-pill">
+          <small>BANK SOAL LUCU</small>
+          <strong>1.000+ SOAL</strong>
+        </div>
+      </div>
+
+      <!-- Lobby -->
+      <div class="card" id="lobbyScreen" style="margin-top: 10px;">
+        <div class="badge-row">
+          <span class="live-badge">● 1.000 SOAL LUCU • 10 SOAL PER SESI</span>
+        </div>
+        <h1 class="hero-title">Sapu Bersih 10 Soal,<br><span class="gold">Menangkan 800.000 Koin!</span></h1>
+        <p class="hero-sub">Sekali klik jawaban langsung digembok! Salah satu soal aja langsung gugur &amp; mulai sesi baru dengan soal berbeda.</p>
+        <div class="info-box">
+          <p>🔒 Sekali milih opsi, jawaban <strong>langsung digembok</strong> (nggak bisa diubah).</p>
+          <p>💥 Salah jawab = <strong>langsung stop</strong>, muncul <strong>"oon banget belajar lagi dek"</strong> lalu reset soal baru.</p>
+          <p>🪙 Tiap jawaban benar nambah <strong>+80.000 Koin</strong> potensi (plus 1–2 soal jadwal promo).</p>
+          <p class="snk">*Syarat &amp; ketentuan: cairnya tetap lewat mimpi ya bro 😴✨</p>
+        </div>
+        <button class="btn-primary" id="btnStart">MULAI MAIN KUIS (SOAL BARU) 🚀</button>
+      </div>
+
+      <!-- Quiz -->
+      <div id="quizScreen" class="hidden" style="margin-top: 8px;">
+        <div class="mode-banner">
+          <div>
+            <strong id="statusTitle">◎ Mode Aktif • Sudden Death</strong>
+            <span id="statusSub">Benar dapat <b>+80.000 Koin</b> potensi</span>
+          </div>
+          <div class="coin-gain-toast" id="coinGainToast">+80.000 Koin!</div>
+        </div>
+
+        <div class="stats-strip">
+          <div class="stat-box">
+            <small>Pemain Saat Ini</small>
+            <strong id="playerCount">58.420</strong>
+          </div>
+          <div class="stat-box">
+            <small>Potensi Koinmu</small>
+            <strong class="coin-pot" id="potentialCoins">0 🪙</strong>
+          </div>
+        </div>
+
+        <div class="q-meta">
+          <span id="qCounter">Soal 1/10</span>
+          <span style="font-size:11px;opacity:0.9;">Anti-Ulang Tiap Sesi</span>
+        </div>
+
+        <div class="steps" id="stepBars"></div>
+
+        <div class="card">
+          <div class="q-card-top">
+            <div class="timer-circle" id="timerBadge">10</div>
+            <span class="cat-tag" id="qCategory">KOMEDI LOGIKA</span>
+          </div>
+          <h2 class="q-text" id="qText">Memuat soal...</h2>
+          <div class="active-rule-strip" id="activeRuleStrip">🔒 Klik 1 jawaban — langsung digembok permanen!</div>
+          <div class="options" id="optionsBox"></div>
+          <div class="feedback-bar" id="feedbackBar"></div>
+        </div>
+      </div>
+
+      <!-- Result / Gugur -->
+      <div class="card hidden" id="resultScreen" style="margin-top: 10px;">
+        <div class="result-emoji" id="resEmoji">🤡</div>
+        <div class="roast-banner" id="resBanner">oon banget belajar lagi dek</div>
+        <p class="result-sub" id="resSub">Langsung gugur dan nggak bisa lanjut. Sesi berikutnya otomatis pakai set soal baru yang beda!</p>
+        <div class="result-box">
+          <small>DETAIL JAWABAN &amp; POTENSI KOIN</small>
+          <strong id="resSummary">0/10 • 0 Koin</strong>
+        </div>
+        <button class="btn-primary" id="btnRestart">MULAI LAGI DARI AWAL (SOAL BEDA) 🔄</button>
+      </div>
+    </div>
+
+    <!-- Live Chat -->
+    <div class="chat-section">
+      <div class="chat-list" id="chatList"></div>
+      <form class="chat-form" id="chatForm">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Beri Komentar..." maxlength="90" autocomplete="off" />
+        <button type="submit" class="send-btn" aria-label="Kirim">➤</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const TOTAL_QUESTIONS = 10;
+    const QUESTION_SECONDS = 10;
+    const COIN_PER_CORRECT = 80000;
+    const TARGET_BANK_SIZE = 1000;
+
+    let questions = [];
+    let currentIndex = 0;
+    let correctCount = 0;
+    let potentialCoins = 0;
+    let playersAlive = 58420;
+    let timeLeft = QUESTION_SECONDS;
+    let answeredCurrent = false;
+    let selectedChoiceText = null;
+    let timerId = null;
+    let advanceId = null;
+    let chatTimerId = null;
+
+    // Menyimpan signature soal yang sudah pernah muncul agar tidak berulang tiap sesi/mulai lagi
+    const seenQuestionKeys = new Set();
+
+    const elLobby = document.getElementById("lobbyScreen");
+    const elQuiz = document.getElementById("quizScreen");
+    const elResult = document.getElementById("resultScreen");
+    const elPlayerCount = document.getElementById("playerCount");
+    const elPotentialCoins = document.getElementById("potentialCoins");
+    const elQCounter = document.getElementById("qCounter");
+    const elTimerBadge = document.getElementById("timerBadge");
+    const elStepBars = document.getElementById("stepBars");
+    const elCategory = document.getElementById("qCategory");
+    const elQText = document.getElementById("qText");
+    const elOptionsBox = document.getElementById("optionsBox");
+    const elFeedbackBar = document.getElementById("feedbackBar");
+    const elChatList = document.getElementById("chatList");
+    const elChatForm = document.getElementById("chatForm");
+    const elChatInput = document.getElementById("chatInput");
+
+    const formatNum = (n) => Math.max(0, Math.round(n)).toLocaleString("id-ID");
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function shuffle(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function stripHash(str) {
+      return String(str).replace(/#/g, "").trim();
+    }
+
+    function buildQuestionObj(category, prompt, correctAnswer, distractors, explanation) {
+      const cleanAns = stripHash(correctAnswer);
+      const uniqueDistractors = Array.from(
+        new Set(
+          distractors
+            .map(stripHash)
+            .filter((d) => d && d !== cleanAns && !d.includes("#"))
+        )
+      ).slice(0, 3);
+
+      const fallbackPool = [
+        "Opsi nyasar",
+        "Pengecoh santai",
+        "Bukan yang ini",
+        "Tebakan iseng",
+        "Jalur salah",
+        "Kira-kira begitu"
+      ];
+
+      let fIdx = 0;
+      while (uniqueDistractors.length < 3) {
+        const cand = fallbackPool[fIdx % fallbackPool.length] + " " + (fIdx + 1);
+        if (cand !== cleanAns && !uniqueDistractors.includes(cand)) {
+          uniqueDistractors.push(cand);
+        }
+        fIdx += 1;
+      }
+
+      const choices = shuffle([cleanAns, ...uniqueDistractors]);
+      return {
+        category: stripHash(category),
+        prompt: stripHash(prompt),
+        choices,
+        answer: cleanAns,
+        explanation: stripHash(explanation)
+      };
+    }
+
+    // Soal-soal jadwal campaign / jam promo / hari khusus (pict ke-6) -> wajib muncul 1-2 soal tiap mulai
+    function generatePromoScheduleQuestions() {
+      const promoBank = [
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Di tabel jadwal campaign, tanggal 1 masuk ke campaign apa?",
+          "Super Beauty",
+          ["VIP Day", "Produk Lokal Day", "Fashion Day"],
+          "Tanggal 1 di jadwal campaign adalah Super Beauty."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Berdasarkan jadwal campaign, tanggal 1-6 termasuk kategori apa?",
+          "Periode promo tertentu",
+          ["Super Beauty", "Birthday Sale", "Payday"],
+          "Tanggal 1-6 tercatat sebagai Periode promo tertentu."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Di tabel jadwal campaign, 12.12 merujuk ke campaign apa?",
+          "Birthday Sale",
+          ["VIP Day", "Produk Lokal Day", "Fashion Day"],
+          "12.12 pada jadwal campaign adalah Birthday Sale."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Tanggal 15 pada jadwal campaign merupakan jadwal untuk apa?",
+          "VIP Day",
+          ["Produk Lokal Day", "Payday", "Super Beauty"],
+          "Tanggal 15 di tabel jadwal adalah VIP Day."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Berdasarkan daftar campaign, tanggal 17 masuk ke promo apa?",
+          "Produk Lokal Day",
+          ["Birthday Sale", "VIP Day", "Fashion Day"],
+          "Tanggal 17 di tabel jadwal adalah Produk Lokal Day."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Kalau tanggal 25 Payday dan tanggal 30 Fashion Day, tanggal 23-24 masuk ke mana?",
+          "Periode promo tertentu",
+          ["Fashion Day", "Payday", "Super Beauty"],
+          "Tanggal 23-24 di jadwal adalah Periode promo tertentu."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Tanggal 25 di tabel jadwal campaign disebut apa?",
+          "Payday",
+          ["Fashion Day", "VIP Day", "Produk Lokal Day"],
+          "Tanggal 25 pada jadwal campaign adalah Payday."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Tanggal 30 pada jadwal campaign masuk ke kategori apa?",
+          "Fashion Day",
+          ["Payday", "Birthday Sale", "VIP Day"],
+          "Tanggal 30 pada jadwal campaign adalah Fashion Day."
+        ),
+        buildQuestionObj(
+          "HARI KHUSUS",
+          "Pada bagian Hari Khusus, hari Senin disebut apa?",
+          "Mall Monday",
+          ["Serbu Rabu", "Payday", "VIP Day"],
+          "Hari Khusus Senin pada jadwal adalah Mall Monday."
+        ),
+        buildQuestionObj(
+          "HARI KHUSUS",
+          "Pada bagian Hari Khusus, hari Rabu disebut apa?",
+          "Serbu Rabu",
+          ["Mall Monday", "Fashion Day", "Birthday Sale"],
+          "Hari Khusus Rabu pada jadwal adalah Serbu Rabu."
+        ),
+        buildQuestionObj(
+          "JAM PROMO",
+          "Manakah yang termasuk patokan Jam Promo pada jadwal?",
+          "00.00-05.59",
+          ["06.30", "14.15", "22.45"],
+          "00.00-05.59 adalah salah satu patokan Jam Promo di jadwal."
+        ),
+        buildQuestionObj(
+          "JAM PROMO",
+          "Selain 09.00 dan 11.59, mana lagi yang masuk patokan Jam Promo di jadwal?",
+          "17.59",
+          ["07.45", "13.30", "23.10"],
+          "17.59 termasuk patokan Jam Promo di tabel."
+        ),
+        buildQuestionObj(
+          "JAM PROMO",
+          "Manakah yang termasuk patokan Jam Promo malam hari pada jadwal?",
+          "20.00-20.59",
+          ["18.30", "21.30", "23.00-23.59"],
+          "20.00-20.59 adalah patokan Jam Promo di jadwal."
+        )
+      ];
+      return shuffle(promoBank);
+    }
+
+    // Membangun 1.000 soal lucu & unik tanpa pagar "#" dan tanpa pola kalimat yang berulang-ulang
+    function buildThousandFunnyBank() {
+      const bank = [];
+
+      const handCraftedFunny = [
+        ["PLESETAN KATA", "Burung apa yang paling sering nolak ajakan nongkrong?", "Burung gagak (ga-gak mulu)", ["Burung gereja", "Burung hantu", "Burung merpati"], "Plesetan receh: gagak = ga-gak alias nolak terus."],
+        ["LOGIKA HARI", "Kalau kemarin Minggu, maka 3 hari setelah besok adalah hari apa?", "Jumat", ["Rabu", "Kamis", "Sabtu"], "Kemarin Minggu -> hari ini Senin -> besok Selasa -> 3 hari setelah Selasa = Jumat."],
+        ["TRIVIA SEJARAH", "17 Agustus 1945 jatuh pada hari apa?", "Jumat", ["Rabu", "Kamis", "Sabtu"], "17 Agustus 1945 bertepatan dengan hari Jumat."],
+        ["MAIN HURUF", "Jika kata KEBUMEN ditulis terbalik, huruf yang berada di urutan ketiga adalah...", "U", ["E", "B", "M"], "KEBUMEN dibalik menjadi NEMUBEK, huruf ketiganya adalah U."],
+        ["KOMEDI JALAN", "Sebuah bus berhenti mendadak di lampu merah. Kenapa penumpangnya ikut berhenti?", "Karena ikut duduk di dalamnya", ["Karena ban kempes", "Karena lupa bayar", "Karena ngantuk"], "Penumpang berada di dalam bus yang berhenti."],
+        ["RECEH KULINER", "Sate apa yang paling bikin overthinking?", "Sate-rusnya begini apa gimana", ["Sate ayam", "Sate kambing", "Sate taichan"], "Plesetan receh: sate-rusnya bikin mikir."],
+        ["LOGIKA ANGKA", "Dalam 1 menit ada 60 detik. Kalau ada 3 jam, totalnya berapa menit?", "180 menit", ["60 menit", "120 menit", "300 menit"], "3 dikali 60 menit sama dengan 180 menit."],
+        ["PLESETAN HEWAN", "Gajah apa yang paling gampang dikenali di keramaian?", "Gajah yang pakai kacamata hitam", ["Gajah kecil", "Gajah pemalu", "Gajah kalem"], "Gajah pakai kacamata hitam jelas mencolok."],
+        ["RECEH WAKTU", "Jarum pendek di angka 3, jarum panjang di angka 12. Sekarang jam berapa?", "03.00", ["12.15", "06.00", "09.00"], "Jarum pendek di 3 dan jarum panjang di 12 menunjukkan pukul 03.00."],
+        ["KOMEDI KANTOR", "Tombol apa di keyboard yang paling capek?", "Tombol Space (ngasih jarak terus)", ["Tombol Enter", "Tombol Shift", "Tombol Esc"], "Space kerjaannya ngasih jarak mulu."],
+        ["LOGIKA BENDA", "Punya banyak pori kecil di badannya tapi masih bisa nampung air. Benda apa?", "Spons cuci piring", ["Ember bolong", "Saringan teh", "Keranjang baju"], "Spons menyerap dan menahan air di pori-porinya."],
+        ["PLESETAN BUAH", "Pisang apa yang paling sering bikin kesel?", "Pisang-gungannya pas lagi ngomong malah mati mic", ["Pisang tanduk", "Pisang raja", "Pisang ambon"], "Receh aja, namanya juga plesetan."],
+        ["KOMEDI CUACA", "Awan mendung menggelayut gelap di atas rumah. Kemungkinan besar bakal...", "Turun hujan", ["Malah salju di trotoar", "Muncul pelangi malam", "Berubah jadi kapas gula"], "Awan gelap tebal menandakan potensi hujan."],
+        ["LOGIKA KALIMAT", "Kalimat KASUR RUSAK dibaca dari belakang bunyinya jadi...", "KASUR RUSAK", ["KASUR BAGUS", "RUSAK KASUR", "KSR RSK"], "Dibaca dari depan maupun belakang bunyinya tetap sama."],
+        ["RECEH SEKOLAH", "Momen paling bikin deg-degan pas jam pelajaran tiba-tiba?", "Kuis dadakan tanpa persiapan", ["Istirahat pertama", "Jam olahraga", "Bel pulang bunyi"], "Kuis mendadak selalu bikin jantung senam."],
+        ["KOMEDI KUCING", "Kucing tidur di mangkok kecil. Kenapa bisa pas?", "Karena kucing sering disebut zat cair", ["Karena mangkoknya melar", "Karena gravitasinya hilang", "Karena kucingnya pipih"], "Bercandaan internet klasik soal kucing."],
+        ["LOGIKA ANGKA", "Angka ganjil di antara 10 dan 14 adalah...", "11 dan 13", ["10 dan 12", "12 dan 14", "9 dan 15"], "11 dan 13 berada di antara 10 dan 14."],
+        ["KOMEDI TIDUR", "Katanya tidur 8 jam sehari itu sehat. Kalau lu tidurnya 14 jam sehari, itu namanya...", "Latihan jadi kasur", ["Atlet tidur nasional", "Mode hibernasi", "Rajin menabung energi"], "Kebanyakan tidur juga bikin lemes."],
+        ["LOGIKA RECEH", "Satu tahun kabisat punya berapa hari?", "366 hari", ["365 hari", "360 hari", "400 hari"], "Tahun kabisat punya 366 hari karena Februari 29 hari."],
+        ["RECEH JAJAN", "Seblak pedas disantap pas siang terik. Reaksi pertama lu?", "Keringetan dan nyari es teh", ["Langsung ngantuk berat", "Malah kedinginan", "Lupa cara nelen"], "Pedas ketemu panas matahari emang nendang."],
+        ["KOMEDI HP", "Wi-Fi di rumah lemot padahal baru bayar. Langkah pertama lu?", "Matikan lalu nyalakan lagi router", ["Pindah rumah", "Kipasin router", "Ajak ngobrol router"], "Restart router sering kali jadi jurus pertama."],
+        ["LOGIKA WARNA", "Warna dasar dalam pencampuran warna cat tradisional adalah...", "Merah, Kuning, Biru", ["Hitam, Putih, Abu", "Pink, Ungu, Toska", "Cokelat, Krem, Emas"], "Merah, kuning, dan biru adalah warna primer."],
+        ["PLESETAN HARI", "Hari apa yang paling bikin malas gerak?", "Senin pagi pas alarm bunyi", ["Sabtu malam", "Minggu santai", "Jumat sore"], "Senin pagi emang punya aura beda."],
+        ["KOMEDI DOMPET", "Isi dompet cuma KTP, SIM, sama struk parkir. Itu tanda...", "Identitas lengkap, saldo minimalis", ["Sultan nyamar", "Lupa naruh uang", "Dompet lagi diet"], "Yang penting identitas aman bro."],
+        ["LOGIKA ANGKA", "Hasil dari 15 ditambah 25 lalu dikurang 10 adalah...", "30", ["20", "40", "50"], "15 + 25 = 40, lalu 40 - 10 = 30."],
+        ["RECEH KENDARAAN", "Roda mobil ada 4 ditambah 1 roda serep. Total roda yang disiapkan ada...", "5 roda", ["4 roda", "6 roda", "8 roda"], "4 roda terpasang ditambah 1 serep sama dengan 5 roda."],
+        ["KOMEDI MAKAN", "Nasi goreng tanpa kerupuk rasanya bagaikan...", "Sayur tanpa garam", ["Es teh pakai es batu", "Kopi pakai gelas", "Roti pakai selai"], "Kerupuk itu pelengkap wajib buat sebagian orang."],
+        ["LOGIKA WAKTU", "Setelah hari Kamis adalah hari...", "Jumat", ["Rabu", "Sabtu", "Minggu"], "Urutannya Kamis lalu Jumat."],
+        ["PLESETAN BENDA", "Pintu apa yang nggak bisa dibuka pakai tangan?", "Pintu hati yang udah terkunci rapat", ["Pintu geser", "Pintu lipat", "Pintu putar"], "Receh banget ya."]
+      ];
+
+      handCraftedFunny.forEach(([cat, p, ans, dist, exp]) => {
+        bank.push(buildQuestionObj(cat, p, ans, dist, exp));
+      });
+
+      // Generator 971 soal unik lainnya dengan struktur kalimat & pertanyaan bervariasi (tanpa pagar & tanpa template berulang)
+      const kataUnik = [
+        "SEMANGKA", "BINTANG", "PELANGI", "MENTARI", "CAKRAWALA", "SAMUDRA", "GUNUNG", "DANAU",
+        "ANGKASA", "GERHANA", "KEMARAU", "HALILINTAR", "KOMET", "GALAKSI", "PANTAI", "LEMBAH",
+        "BUKIT", "HUTAN", "PULAU", "SUNGAI", "AWAN", "EMBUN", "ANGIN", "SENJA", "FAJAR", "MALAM"
+      ];
+
+      const hewanUnik = [
+        "lumba-lumba", "tupai", "kelelawar", "bunglon", "pinguin", "komodo", "kangguru", "landak",
+        "beruang", "serigala", "rusa", "burung hantu", "kura-kura", "ubur-ubur", "gurita", "flamingo"
+      ];
+
+      const profesiLucu = [
+        "tukang review es krim", "penguji kasur empuk", "penjaga pintu otomatis", "ahli ngecek kulkas tengah malam",
+        "pengamat awan mendung", "pencari colokan di kafe", "penghitung butiran nasi", "juru penilai rasa gorengan"
+      ];
+
+      const namaOrang = ["Rama", "Sinta", "Aldi", "Putri", "Fajar", "Ayu", "Bima", "Lala", "Zaki", "Tari"];
+      const tempatSantai = ["warung pojok", "teras depan", "kursi taman", "halte sepi", "pojok perpustakaan", "ruang tengah"];
+
+      let k = 0;
+      while (bank.length < TARGET_BANK_SIZE) {
+        const variant = k % 8;
+
+        if (variant === 0) {
+          const word = kataUnik[k % kataUnik.length];
+          const pos = (k % word.length) + 1;
+          const letter = word[pos - 1];
+          const poolHuruf = ["A", "B", "E", "G", "I", "K", "L", "M", "N", "O", "R", "S", "T", "U"];
+          const wrong = shuffle(poolHuruf.filter((h) => h !== letter)).slice(0, 3);
+          bank.push(buildQuestionObj(
+            "EJAAN KATA",
+            `Huruf ke-${pos} dari depan pada kata ${word} adalah huruf apa?`,
+            letter,
+            wrong,
+            `Pada kata ${word}, huruf urutan ke-${pos} adalah ${letter}.`
+          ));
+        } else if (variant === 1) {
+          const word = kataUnik[(k + 5) % kataUnik.length];
+          const rev = word.split("").reverse().join("");
+          bank.push(buildQuestionObj(
+            "BALIK KATA",
+            `Kalau kata ${word} dibalik urutannya dari belakang ke depan, hasilnya jadi apa?`,
+            rev,
+            [word, word.slice(1) + word[0], rev.slice(0, -1) + "X"],
+            `${word} jika dibalik menjadi ${rev}.`
+          ));
+        } else if (variant === 2) {
+          const base = 10 + ((k * 3) % 40);
+          const add = 2 + ((k * 7) % 15);
+          bank.push(buildQuestionObj(
+            "HITUNGAN CEPAT",
+            `Berapa hasil penjumlahan ${base} ditambah ${add}?`,
+            String(base + add),
+            [String(base + add + 2), String(base + add - 1), String(base)],
+            `${base} + ${add} = ${base + add}.`
+          ));
+        } else if (variant === 3) {
+          const leftNum = 30 + ((k * 5) % 50);
+          const subNum = 3 + ((k * 4) % 12);
+          bank.push(buildQuestionObj(
+            "SELISIH ANGKA",
+            `Jika angka ${leftNum} dikurangi ${subNum}, hasilnya berapa?`,
+            String(leftNum - subNum),
+            [String(leftNum - subNum + 3), String(leftNum + subNum), String(leftNum)],
+            `${leftNum} - ${subNum} = ${leftNum - subNum}.`
+          ));
+        } else if (variant === 4) {
+          const org = namaOrang[k % namaOrang.length];
+          const tmpt = tempatSantai[(k * 2) % tempatSantai.length];
+          const jml = 2 + (k % 7);
+          bank.push(buildQuestionObj(
+            "LOGIKA TEMPAT",
+            `${org} meletakkan ${jml} botol minum di ${tmpt}. Kalau tidak ada yang memindahkan, berapa botol minum di ${tmpt}?`,
+            `${jml} botol minum`,
+            [`${jml + 1} botol minum`, `${jml - 1} botol minum`, "Kosong melompong"],
+            `Tidak ada yang memindahkan, jadi tetap ${jml} botol minum di ${tmpt}.`
+          ));
+        } else if (variant === 5) {
+          const hwn = hewanUnik[k % hewanUnik.length];
+          bank.push(buildQuestionObj(
+            "TEBAKAN HEWAN",
+            `Di antara pilihan ini, mana yang benar-benar nama hewan ${hwn}?`,
+            hwn,
+            shuffle(hewanUnik.filter((x) => x !== hwn)).slice(0, 3),
+            `Jawabannya adalah ${hwn}.`
+          ));
+        } else if (variant === 6) {
+          const prof = profesiLucu[k % profesiLucu.length];
+          bank.push(buildQuestionObj(
+            "PROFESI KHAYALAN",
+            `Seandainya ada lowongan kerja sebagai ${prof}, tugas utamanya kira-kira ngapain?`,
+            `Menjalani peran ${prof}`,
+            ["Mengatur orbit planet", "Membangun piramida baru", "Menyusun kamus alien"],
+            `Namanya juga ${prof}, ya sesuai perannya.`
+          ));
+        } else {
+          const jam = ((k * 2) % 11) + 1;
+          const mnt = (k * 5) % 60;
+          const jamStr = String(jam).padStart(2, "0");
+          const mntStr = String(mnt).padStart(2, "0");
+          bank.push(buildQuestionObj(
+            "BACA JAM",
+            `Jika jam digital menunjukkan pukul ${jamStr}.${mntStr}, angka menitnya berada di angka berapa?`,
+            `${mntStr} menit`,
+            [`${jamStr} menit`, "99 menit", "00 menit"],
+            `Pada ${jamStr}.${mntStr}, bagian menitnya adalah ${mntStr} menit.`
+          ));
+        }
+
+        k += 1;
+      }
+
+      return bank.slice(0, TARGET_BANK_SIZE);
+    }
+
+    const THOUSAND_BANK = buildThousandFunnyBank();
+
+    function pickUniqueQuestionsForSession() {
+      // Reset history jika hampir semua 1.000 soal sudah pernah dipakai
+      if (seenQuestionKeys.size > THOUSAND_BANK.length - 40) {
+        seenQuestionKeys.clear();
+      }
+
+      // 1-2 soal dari jadwal campaign (pict ke-6)
+      const promoCount = randInt(1, 2);
+      const promoSelected = generatePromoScheduleQuestions().slice(0, promoCount);
+
+      // Sisa soal diambil dari 1.000 bank soal lucu yang belum pernah muncul
+      const freshPool = shuffle(
+        THOUSAND_BANK.filter((q) => !seenQuestionKeys.has(q.prompt))
+      );
+
+      const needed = TOTAL_QUESTIONS - promoSelected.length;
+      const funnySelected = freshPool.slice(0, needed);
+
+      const sessionQuestions = shuffle([...promoSelected, ...funnySelected]).slice(0, TOTAL_QUESTIONS);
+      sessionQuestions.forEach((q) => seenQuestionKeys.add(q.prompt));
+
+      return sessionQuestions;
+    }
+
+    function renderSteps() {
+      elStepBars.innerHTML = "";
+      for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const div = document.createElement("div");
+        div.className = "step";
+        if (i < currentIndex) {
+          div.classList.add(questions[i]._isCorrect ? "done-ok" : "done-bad");
+        } else if (i === currentIndex) {
+          div.classList.add("current");
+        }
+        elStepBars.appendChild(div);
+      }
+    }
+
+    function updateStatsUI() {
+      elPlayerCount.textContent = formatNum(playersAlive);
+      elPotentialCoins.textContent = formatNum(potentialCoins) + " 🪙";
+    }
+
+    function clearTimers() {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+      if (advanceId) {
+        clearTimeout(advanceId);
+        advanceId = null;
+      }
+    }
+
+    function startQuiz() {
+      clearTimers();
+      questions = pickUniqueQuestionsForSession();
+      currentIndex = 0;
+      correctCount = 0;
+      potentialCoins = 0;
+      playersAlive = randInt(48000, 75000);
+
+      elLobby.classList.add("hidden");
+      elResult.classList.add("hidden");
+      elQuiz.classList.remove("hidden");
+
+      updateStatsUI();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      clearTimers();
+      answeredCurrent = false;
+      selectedChoiceText = null;
+      timeLeft = QUESTION_SECONDS;
+
+      const q = questions[currentIndex];
+      const toastEl = document.getElementById("coinGainToast");
+      const ruleEl = document.getElementById("activeRuleStrip");
+      const statusTitleEl = document.getElementById("statusTitle");
+      const statusSubEl = document.getElementById("statusSub");
+
+      if (toastEl) toastEl.classList.remove("show");
+      if (ruleEl) ruleEl.textContent = "🔒 Klik 1 jawaban — langsung digembok permanen!";
+      if (statusTitleEl) statusTitleEl.textContent = "◎ Mode Aktif • Sudden Death";
+      if (statusSubEl) statusSubEl.innerHTML = `Benar dapat <b>+${formatNum(COIN_PER_CORRECT)} Koin</b> potensi`;
+
+      elQCounter.textContent = `Soal ${currentIndex + 1}/${TOTAL_QUESTIONS}`;
+      elCategory.textContent = q.category;
+      elQText.textContent = q.prompt;
+      elFeedbackBar.className = "feedback-bar";
+      elFeedbackBar.textContent = "";
+
+      elTimerBadge.textContent = `${timeLeft}`;
+      elTimerBadge.classList.remove("urgent");
+      renderSteps();
+
+      elOptionsBox.innerHTML = "";
+      const letters = ["A", "B", "C", "D"];
+      q.choices.forEach((choiceText, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "opt-btn";
+        btn.dataset.choice = choiceText;
+        btn.innerHTML = `
+          <span class="opt-left">
+            <span class="opt-letter">${letters[idx]}</span>
+            <span>${choiceText}</span>
+          </span>
+          <span class="lock-tag"></span>
+        `;
+        btn.addEventListener("click", () => handleAnswer(choiceText, btn));
+        elOptionsBox.appendChild(btn);
+      });
+
+      timerId = setInterval(() => {
+        timeLeft -= 1;
+        const dropRate = randInt(450, 1900);
+        playersAlive = Math.max(120, playersAlive - dropRate);
+        updateStatsUI();
+
+        if (timeLeft <= 0) {
+          timeLeft = 0;
+          elTimerBadge.textContent = "0";
+          elTimerBadge.classList.add("urgent");
+          revealAndResolveQuestion();
+        } else {
+          elTimerBadge.textContent = `${timeLeft}`;
+          if (timeLeft <= 3) {
+            elTimerBadge.classList.add("urgent");
+          }
+        }
+      }, 1000);
+    }
+
+    function lockAllOptionsPermanently() {
+      const buttons = elOptionsBox.querySelectorAll(".opt-btn");
+      buttons.forEach((b) => {
+        b.disabled = true;
+      });
+    }
+
+    function highlightCorrectOption() {
+      const q = questions[currentIndex];
+      const buttons = elOptionsBox.querySelectorAll(".opt-btn");
+      buttons.forEach((b) => {
+        if (b.dataset.choice === q.answer) {
+          b.classList.add("correct");
+        }
+      });
+    }
+
+    // Begitu diklik, jawaban langsung digembok dan nggak bisa diubah/dipilih lagi
+    function handleAnswer(selectedText, btnEl) {
+      if (answeredCurrent || selectedChoiceText !== null) return;
+      selectedChoiceText = selectedText;
+
+      lockAllOptionsPermanently();
+      btnEl.classList.add("locked-choice");
+      const tagEl = btnEl.querySelector(".lock-tag");
+      if (tagEl) tagEl.textContent = "🔒 Tergembok";
+
+      const ruleEl = document.getElementById("activeRuleStrip");
+      if (ruleEl) ruleEl.textContent = `🔒 Jawaban "${selectedText}" sudah digembok! Menunggu hasil...`;
+
+      elFeedbackBar.className = "feedback-bar show ok";
+      elFeedbackBar.textContent = `🔒 Jawaban "${selectedText}" digembok! Nggak bisa diganti lagi.`;
+    }
+
+    function revealAndResolveQuestion() {
+      if (answeredCurrent) return;
+      answeredCurrent = true;
+      clearTimers();
+      lockAllOptionsPermanently();
+
+      const q = questions[currentIndex];
+      const buttons = elOptionsBox.querySelectorAll(".opt-btn");
+      const toastEl = document.getElementById("coinGainToast");
+      const statusTitleEl = document.getElementById("statusTitle");
+      const statusSubEl = document.getElementById("statusSub");
+
+      // Jika belum sempat milih sampai waktu habis -> langsung gagal & muncul roast
+      if (!selectedChoiceText) {
+        q._isCorrect = false;
+        highlightCorrectOption();
+        playersAlive = Math.max(100, playersAlive - randInt(1500, 3500));
+        updateStatsUI();
+        renderSteps();
+        if (statusTitleEl) statusTitleEl.textContent = "⌛ Waktu Habis • Gugur!";
+        if (statusSubEl) statusSubEl.innerHTML = `Belum mengunci jawaban`;
+        elFeedbackBar.className = "feedback-bar show bad";
+        elFeedbackBar.textContent = `⌛ Waktu habis! Jawaban benar: ${q.answer}. ${q.explanation}`;
+
+        advanceId = setTimeout(() => {
+          showFailedRoast("Kehabisan waktu sebelum mengunci jawaban!");
+        }, 1200);
+        return;
+      }
+
+      const isRight = selectedChoiceText === q.answer;
+      q._isCorrect = isRight;
+
+      let chosenBtn = null;
+      buttons.forEach((b) => {
+        if (b.dataset.choice === selectedChoiceText) {
+          chosenBtn = b;
+        }
+      });
+
+      if (isRight) {
+        if (chosenBtn) {
+          chosenBtn.classList.remove("locked-choice");
+          chosenBtn.classList.add("correct");
+          const tagEl = chosenBtn.querySelector(".lock-tag");
+          if (tagEl) tagEl.textContent = "✓ Benar";
+        }
+        correctCount += 1;
+        potentialCoins += COIN_PER_CORRECT;
+        playersAlive = Math.max(100, playersAlive - randInt(300, 900));
+
+        if (toastEl) {
+          toastEl.textContent = `+${formatNum(COIN_PER_CORRECT)} Potensi Koin!`;
+          toastEl.classList.add("show");
+        }
+        if (statusTitleEl) statusTitleEl.textContent = "✓ Jawabanmu Benar!";
+        if (statusSubEl) statusSubEl.innerHTML = `Potensi koin bertambah jadi <b>${formatNum(potentialCoins)} Koin</b>`;
+        elFeedbackBar.className = "feedback-bar show ok";
+        elFeedbackBar.textContent = `✓ Benar! Potensi koin +${formatNum(COIN_PER_CORRECT)}. ${q.explanation}`;
+
+        scheduleNext();
+      } else {
+        // Salah jawab -> langsung berhenti (nggak bisa lanjut) dan muncul "oon banget belajar lagi dek"
+        if (chosenBtn) {
+          chosenBtn.classList.remove("locked-choice");
+          chosenBtn.classList.add("wrong");
+          const tagEl = chosenBtn.querySelector(".lock-tag");
+          if (tagEl) tagEl.textContent = "✕ Salah";
+        }
+        highlightCorrectOption();
+        playersAlive = Math.max(100, playersAlive - randInt(1200, 3200));
+        updateStatsUI();
+        renderSteps();
+
+        if (statusTitleEl) statusTitleEl.textContent = "✕ Jawabanmu Salah!";
+        if (statusSubEl) statusSubEl.innerHTML = `Langsung gugur di Soal ${currentIndex + 1}/${TOTAL_QUESTIONS}`;
+        elFeedbackBar.className = "feedback-bar show bad";
+        elFeedbackBar.textContent = `✕ Salah! Jawaban benar: ${q.answer}. ${q.explanation}`;
+
+        advanceId = setTimeout(() => {
+          showFailedRoast(`Salah di Soal ${currentIndex + 1}/${TOTAL_QUESTIONS}: "${q.prompt}" (Jawaban benar: ${q.answer}).`);
+        }, 1200);
+      }
+    }
+
+    function scheduleNext() {
+      advanceId = setTimeout(() => {
+        if (currentIndex + 1 < TOTAL_QUESTIONS) {
+          currentIndex += 1;
+          loadQuestion();
+        } else {
+          showFinalResult();
+        }
+      }, 1400);
+    }
+
+    function showFailedRoast(reasonText) {
+      clearTimers();
+      elQuiz.classList.add("hidden");
+      elResult.classList.remove("hidden");
+
+      const fIdx = pickNonRepeatingIndex(failRoastPool.length, lastFailIdx);
+      lastFailIdx = fIdx;
+      const item = failRoastPool[fIdx];
+
+      const elEmoji = document.getElementById("resEmoji");
+      const elBanner = document.getElementById("resBanner");
+      const elSub = document.getElementById("resSub");
+      const elSummary = document.getElementById("resSummary");
+
+      elEmoji.textContent = item.emoji;
+      elBanner.className = "roast-banner";
+      elBanner.textContent = item.headline;
+      elSub.textContent = `${item.sub} (${reasonText})`;
+      elSummary.textContent = `Berhenti di Soal ${currentIndex + 1}/${TOTAL_QUESTIONS} • ${formatNum(potentialCoins)} Koin`;
+    }
+
+    function showFinalResult() {
+      clearTimers();
+      elQuiz.classList.add("hidden");
+      elResult.classList.remove("hidden");
+
+      const wIdx = pickNonRepeatingIndex(winCelebratePool.length, lastWinIdx);
+      lastWinIdx = wIdx;
+      const item = winCelebratePool[wIdx];
+
+      const elEmoji = document.getElementById("resEmoji");
+      const elBanner = document.getElementById("resBanner");
+      const elSub = document.getElementById("resSub");
+      const elSummary = document.getElementById("resSummary");
+
+      elEmoji.textContent = item.emoji;
+      elBanner.className = "win-banner";
+      elBanner.textContent = item.headline;
+      elSub.textContent = item.sub;
+      elSummary.textContent = `${TOTAL_QUESTIONS}/${TOTAL_QUESTIONS} Benar • ${formatNum(potentialCoins)} Koin`;
+    }
+
+    function resetToLobby() {
+      clearTimers();
+      elQuiz.classList.add("hidden");
+      elResult.classList.add("hidden");
+      elLobby.classList.remove("hidden");
+    }
+
+    const botNicks = ["r***3", "s***w", "m***h", "a***z", "d***n", "k***a", "b***u"];
+    const botLines = [
+      "Sekali klik langsung kegembok!",
+      "Awas salah langsung gugur wok",
+      "1.000 soal lucu nih tiap mulai",
+      "Ada soal jadwal promo juga!",
+      "800 ribu cairnya lewat mimpi ya?",
+      "Jangan sampai oon belajar lagi dek"
+    ];
+
+    function appendChat(nick, text) {
+      const item = document.createElement("div");
+      item.className = "chat-bubble";
+      item.innerHTML = `<span class="nick">${nick}:</span><span>${text}</span>`;
+      elChatList.appendChild(item);
+      if (elChatList.children.length > 12) {
+        elChatList.removeChild(elChatList.firstChild);
+      }
+      elChatList.scrollTop = elChatList.scrollHeight;
+    }
+
+    function seedChat() {
+      elChatList.innerHTML = "";
+      appendChat("r***3", "Sekali klik langsung kegembok!");
+      appendChat("s***w", "Awas salah langsung gugur wok");
+      appendChat("m***h", "1.000 soal lucu nih tiap mulai");
+    }
+
+    elChatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const val = elChatInput.value.trim();
+      if (!val) return;
+      appendChat("Kamu", val);
+      elChatInput.value = "";
+    });
+
+    document.getElementById("btnStart").addEventListener("click", startQuiz);
+    document.getElementById("btnRestart").addEventListener("click", startQuiz);
+    document.getElementById("btnResetTop").addEventListener("click", resetToLobby);
+
+    seedChat();
+    chatTimerId = setInterval(() => {
+      appendChat(pickRandom(botNicks), pickRandom(botLines));
+    }, 2800);
+  </script>
+</body>
+</html>

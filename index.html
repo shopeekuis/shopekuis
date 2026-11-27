@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Kuis Receh — Live Quiz</title>
+  <style>
+    :root {
+      --bg-top: #ff8c24;
+      --bg-bottom: #b84200;
+      --card: #ffffff;
+      --ink: #1e1b18;
+      --muted: #6b5e54;
+      --accent: #f97316;
+      --accent-dark: #c2410c;
+      --ok-bg: #dcfce7;
+      --ok-border: #16a34a;
+      --ok-ink: #14532d;
+      --bad-bg: #ffe4e6;
+      --bad-border: #e11d48;
+      --bad-ink: #881337;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100dvh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 50% 0%, #ffb35c 0%, var(--bg-top) 38%, var(--bg-bottom) 100%);
+      overflow-x: hidden;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px 12px 16px;
+      gap: 10px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(58, 20, 0, 0.35);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      color: #fff;
+      font-weight: 900;
+      font-size: 18px;
+      line-height: 1.05;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.28);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-title span {
+      display: block;
+      font-size: 15px;
+      color: #fef08a;
+    }
+
+    .pool-pill {
+      background: rgba(66, 22, 0, 0.65);
+      border: 1px solid rgba(255, 224, 130, 0.45);
+      border-radius: 12px;
+      padding: 5px 10px;
+      text-align: right;
+      color: #fff;
+    }
+
+    .pool-pill small {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.5px;
+      opacity: 0.85;
+      font-weight: 700;
+    }
+
+    .pool-pill strong {
+      font-size: 13px;
+      color: #fde047;
+      font-weight: 900;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 15px 14px;
+      box-shadow: 0 12px 28px rgba(45, 14, 0, 0.32);
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .live-badge {
+      background: #ffedd5;
+      color: #c2410c;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.4px;
+    }
+
+    .hero-title {
+      margin: 0 0 6px;
+      text-align: center;
+      font-size: 22px;
+      line-height: 1.2;
+      font-weight: 900;
+      color: #18181b;
+    }
+
+    .hero-title .gold {
+      color: #ea580c;
+    }
+
+    .hero-sub {
+      margin: 0 0 12px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .info-box {
+      background: #fefce8;
+      border: 1px solid #fde047;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .info-box p {
+      margin: 0 0 4px;
+    }
+
+    .info-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-box .snk {
+      font-size: 11.5px;
+      color: #713f12;
+      font-style: italic;
+    }
+
+    .btn-primary {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 13px 16px;
+      font-size: 15px;
+      font-weight: 900;
+      color: #fff;
+      background: linear-gradient(180deg, #fb923c 0%, #ea580c 100%);
+      box-shadow: 0 5px 0 #9a3412;
+      cursor: pointer;
+      transition: transform 0.08s ease;
+    }
+
+    .btn-primary:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #9a3412;
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 6px 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .stat-box small {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .stat-box strong {
+      font-size: 14.5px;
+      font-weight: 900;
+      color: #18181b;
+    }
+
+    .stat-box strong.coin-pot {
+      color: #c2410c;
+    }
+
+    .q-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .timer-pill {
+      background: #18181b;
+      color: #fde047;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .timer-pill.urgent {
+      background: #e11d48;
+      color: #fff;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .step {
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.35);
+    }
+
+    .step.done-ok { background: #4ade80; }
+    .step.done-bad { background: #fb7185; }
+    .step.current { background: #fde047; }
+
+    .cat-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-bottom: 5px;
+    }
+
+    .q-text {
+      margin: 0 0 9px;
+      font-size: 14.5px;
+      line-height: 1.38;
+      font-weight: 800;
+      color: #18181b;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .opt-btn {
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1.5px solid #e4e4e7;
+      background: #fafafa;
+      color: #18181b;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.28;
+      cursor: pointer;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #fb923c;
+      background: #fff7ed;
+    }
+
+    .opt-letter {
+      width: 23px;
+      height: 23px;
+      border-radius: 8px;
+      background: #f4f4f5;
+      border: 1px solid #d4d4d8;
+      display: grid;
+      place-items: center;
+      font-size: 11.5px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .opt-btn.correct {
+      background: var(--ok-bg);
+      border-color: var(--ok-border);
+      color: var(--ok-ink);
+    }
+
+    .opt-btn.correct .opt-letter {
+      background: var(--ok-border);
+      border-color: var(--ok-border);
+      color: #fff;
+    }
+
+    .opt-btn.wrong {
+      background: var(--bad-bg);
+      border-color: var(--bad-border);
+      color: var(--bad-ink);
+    }
+
+    .opt-btn.wrong .opt-letter {
+      background: var(--bad-border);
+      border-color: var(--bad-border);
+      color: #fff;
+    }
+
+    .feedback-bar {
+      margin-top: 7px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: none;
+    }
+
+    .feedback-bar.show { display: block; }
+    .feedback-bar.ok { background: var(--ok-bg); color: var(--ok-ink); }
+    .feedback-bar.bad { background: var(--bad-bg); color: var(--bad-ink); }
+
+    .result-emoji {
+      text-align: center;
+      font-size: 38px;
+      margin-bottom: 4px;
+    }
+
+    .roast-banner {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: #e11d48;
+      margin: 4px 0 6px;
+      line-height: 1.2;
+    }
+
+    .win-banner {
+      text-align: center;
+      font-size: 21px;
+      font-weight: 900;
+      color: #15803d;
+      margin: 4px 0 6px;
+      line-height: 1.2;
+    }
+
+    .result-sub {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 12px;
+      line-height: 1.45;
+    }
+
+    .result-box {
+      background: #18181b;
+      color: #fff;
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .result-box small {
+      display: block;
+      font-size: 10.5px;
+      opacity: 0.75;
+      font-weight: 700;
+    }
+
+    .result-box strong {
+      font-size: 22px;
+      color: #fde047;
+      font-weight: 900;
+    }
+
+    .chat-section {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding-top: 2px;
+    }
+
+    .chat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      max-height: 126px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .chat-bubble {
+      align-self: flex-start;
+      max-width: 92%;
+      background: rgba(45, 16, 0, 0.74);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      line-height: 1.3;
+      backdrop-filter: blur(4px);
+    }
+
+    .chat-bubble .nick {
+      color: #fdba74;
+      font-weight: 700;
+      margin-right: 4px;
+    }
+
+    .chat-form {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chat-input {
+      flex: 1;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(32, 10, 0, 0.68);
+      color: #fff;
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .chat-input::placeholder {
+      color: rgba(255,255,255,0.65);
+    }
+
+    .send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: none;
+      background: #f97316;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div>
+      <div class="topbar">
+        <button class="icon-btn" id="btnResetTop" title="Reset">✕</button>
+        <div class="brand-title">
+          Kuis 💡
+          <span>Receh</span>
+        </div>
+        <div class="pool-pill">
+          <small>TOTAL KOIN SESI INI</small>
+          <strong>1.200.000.000</strong>
+        </div>
+      </div>
+
+      <!-- Lobby -->
+      <div class="card" id="lobbyScreen" style="margin-top: 10px;">
+        <div class="badge-row">
+          <span class="live-badge">● LIVE QUIZ SESSION • 10 SOAL</span>
+        </div>
+        <h1 class="hero-title">Jawab Benar Semua,<br><span class="gold">Menangkan 800.000 Koin!</span></h1>
+        <p class="hero-sub">Tiap mulai soalnya di-generate acak beda-beda. Awas kena jebakan logika, kurikulum, dan jadwal promo!</p>
+        <div class="info-box">
+          <p>⏱️ Waktu menjawab tepat <strong>10 detik</strong> tiap soal.</p>
+          <p>🪙 Jawaban benar nambah potensi koin sampai <strong>800.000 Koin</strong>.</p>
+          <p class="snk">*Syarat &amp; ketentuan: cairnya lewat mimpi ya bro 😴✨</p>
+        </div>
+        <button class="btn-primary" id="btnStart">MULAI MAIN KUIS LIVE 🚀</button>
+      </div>
+
+      <!-- Quiz -->
+      <div id="quizScreen" class="hidden" style="margin-top: 8px;">
+        <div class="stats-strip">
+          <div class="stat-box">
+            <small>Pemain Saat Ini</small>
+            <strong id="playerCount">58.420</strong>
+          </div>
+          <div class="stat-box">
+            <small>Potensi Koinmu</small>
+            <strong class="coin-pot" id="potentialCoins">0 🪙</strong>
+          </div>
+        </div>
+
+        <div class="q-meta">
+          <span id="qCounter">Soal 1/10 • Acak per Sesi</span>
+          <span class="timer-pill" id="timerBadge">10s</span>
+        </div>
+
+        <div class="steps" id="stepBars"></div>
+
+        <div class="card">
+          <span class="cat-tag" id="qCategory">PROMO JEBAKAN</span>
+          <h2 class="q-text" id="qText">Memuat soal...</h2>
+          <div class="options" id="optionsBox"></div>
+          <div class="feedback-bar" id="feedbackBar"></div>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="card hidden" id="resultScreen" style="margin-top: 10px;">
+        <div class="result-emoji" id="resEmoji">🤡</div>
+        <div class="roast-banner" id="resBanner">bloon banget wok😂😂</div>
+        <p class="result-sub" id="resSub">Ada jawaban yang salah atau kehabisan waktu, jadi gagal sapu bersih 10/10.</p>
+        <div class="result-box">
+          <small>SKOR &amp; POTENSI KOIN</small>
+          <strong id="resSummary">0/10 • 0 Koin</strong>
+        </div>
+        <button class="btn-primary" id="btnRestart">MAIN LAGI (SOAL ACAK BARU) 🔄</button>
+      </div>
+    </div>
+
+    <!-- Live Chat -->
+    <div class="chat-section">
+      <div class="chat-list" id="chatList"></div>
+      <form class="chat-form" id="chatForm">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Beri Komentar..." maxlength="90" autocomplete="off" />
+        <button type="submit" class="send-btn" aria-label="Kirim">➤</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const TOTAL_QUESTIONS = 10;
+    const QUESTION_SECONDS = 10;
+    const COIN_PER_CORRECT = 80000;
+
+    let questions = [];
+    let currentIndex = 0;
+    let correctCount = 0;
+    let potentialCoins = 0;
+    let playersAlive = 58420;
+    let timeLeft = QUESTION_SECONDS;
+    let answeredCurrent = false;
+    let timerId = null;
+    let advanceId = null;
+    let chatTimerId = null;
+
+    const elLobby = document.getElementById("lobbyScreen");
+    const elQuiz = document.getElementById("quizScreen");
+    const elResult = document.getElementById("resultScreen");
+    const elPlayerCount = document.getElementById("playerCount");
+    const elPotentialCoins = document.getElementById("potentialCoins");
+    const elQCounter = document.getElementById("qCounter");
+    const elTimerBadge = document.getElementById("timerBadge");
+    const elStepBars = document.getElementById("stepBars");
+    const elCategory = document.getElementById("qCategory");
+    const elQText = document.getElementById("qText");
+    const elOptionsBox = document.getElementById("optionsBox");
+    const elFeedbackBar = document.getElementById("feedbackBar");
+    const elChatList = document.getElementById("chatList");
+    const elChatForm = document.getElementById("chatForm");
+    const elChatInput = document.getElementById("chatInput");
+
+    const formatNum = (n) => Math.max(0, Math.round(n)).toLocaleString("id-ID");
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function shuffle(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function buildQuestionObj(category, prompt, correctAnswer, distractors, explanation) {
+      const uniqueDistractors = Array.from(new Set(distractors.filter((d) => d !== correctAnswer))).slice(0, 3);
+      while (uniqueDistractors.length < 3) {
+        uniqueDistractors.push("Jebakan receh " + randInt(1, 99));
+      }
+      const choices = shuffle([correctAnswer, ...uniqueDistractors]);
+      return {
+        category,
+        prompt,
+        choices,
+        answer: correctAnswer,
+        explanation
+      };
+    }
+
+    function generateDynamicQuestionPool() {
+      const pool = [];
+
+      // 1. Wajib masuk: Soal jadwal promo sesuai tabel (Tanggal 23-24 masuk ke mana)
+      pool.push(buildQuestionObj(
+        "PROMO JEBAKAN",
+        "Kalau tanggal 25 Payday dan tanggal 30 Fashion Day, tanggal 23-24 masuk ke mana?",
+        "Periode promo tertentu",
+        ["Fashion Day kemalaman", "Payday kepagian", "Super Beauty"],
+        "Di jadwal, tanggal 23-24 tercatat sebagai Periode promo tertentu."
+      ));
+
+      // Variasi soal lain dari tabel campaign & jam promo
+      pool.push(buildQuestionObj(
+        "PROMO JEBAKAN",
+        "Berdasarkan jadwal campaign, tanggal berapa yang masuk kategori Super Beauty?",
+        "Tanggal 1",
+        ["Tanggal 15", "Tanggal 17", "Tanggal 30"],
+        "Tanggal 1 adalah jadwal campaign Super Beauty."
+      ));
+
+      pool.push(buildQuestionObj(
+        "PROMO JEBAKAN",
+        "Tanggal 12.12 di daftar campaign merujuk ke promo apa?",
+        "Birthday Sale",
+        ["VIP Day", "Produk Lokal Day", "Payday"],
+        "12.12 pada tabel jadwal adalah Birthday Sale."
+      ));
+
+      pool.push(buildQuestionObj(
+        "PROMO JEBAKAN",
+        "Kalau ada campaign VIP Day di tanggal 15 dan Produk Lokal Day di tanggal 17, tanggal 15 itu promo apa?",
+        "VIP Day",
+        ["Produk Lokal Day", "Fashion Day", "Periode promo tertentu"],
+        "Tanggal 15 adalah jadwal VIP Day."
+      ));
+
+      pool.push(buildQuestionObj(
+        "PROMO JEBAKAN",
+        "Tanggal 17 pada daftar campaign disebut promo apa?",
+        "Produk Lokal Day",
+        ["Birthday Sale", "Super Beauty", "Mall Monday"],
+        "Tanggal 17 adalah jadwal Produk Lokal Day."
+      ));
+
+      pool.push(buildQuestionObj(
+        "PROMO JEBAKAN",
+        "Tanggal 1-6 pada daftar campaign masuk ke bagian mana?",
+        "Periode promo tertentu",
+        ["Super Beauty", "Payday", "Serbu Rabu"],
+        "Tanggal 1-6 termasuk Periode promo tertentu."
+      ));
+
+      pool.push(buildQuestionObj(
+        "PROMO JEBAKAN",
+        "Di bagian Hari Khusus, hari Senin dinamai apa?",
+        "Mall Monday",
+        ["Serbu Rabu", "Payday", "Fashion Day"],
+        "Hari Khusus Senin adalah Mall Monday."
+      ));
+
+      pool.push(buildQuestionObj(
+        "PROMO JEBAKAN",
+        "Di bagian Hari Khusus, hari Rabu dinamai apa?",
+        "Serbu Rabu",
+        ["Mall Monday", "VIP Day", "Birthday Sale"],
+        "Hari Khusus Rabu adalah Serbu Rabu."
+      ));
+
+      const jamList = ["00.00-05.59", "09.00", "11.59", "17.59", "20.00-20.59"];
+      const jamBenar = pickRandom(jamList);
+      const jamLain = shuffle(jamList.filter((j) => j !== jamBenar));
+      pool.push(buildQuestionObj(
+        "JAM PROMO",
+        "Mana yang termasuk patokan Jam Promo di tabel?",
+        jamBenar,
+        [jamLain[0], "07.15", "14.30"],
+        "Patokan jam promo resmi di tabel adalah " + jamBenar + "."
+      ));
+
+      // 2. Generator soal MTK jebakan acak
+      const a = randInt(3, 9);
+      const b = randInt(2, 6);
+      const c = randInt(1, 5);
+      pool.push(buildQuestionObj(
+        "MTK JEBAKAN",
+        `Di atas meja ada ${a} mangga. Kamu ambil ${b} mangga. Berapa mangga yang kamu punya sekarang?`,
+        `${b} mangga`,
+        [`${a - b} mangga`, `${a + b} mangga`, "0 mangga"],
+        `Yang kamu ambil ya ${b} mangga, bukan mangga yang tersisa di meja.`
+      ));
+
+      const kg = randInt(2, 7);
+      pool.push(buildQuestionObj(
+        "MTK JEBAKAN",
+        `Mana yang lebih berat: ${kg} kg kapas atau ${kg} kg besi?`,
+        "Sama beratnya",
+        [`${kg} kg besi`, `${kg} kg kapas`, "Tergantung cuaca"],
+        `Sama-sama ${kg} kg, jadi beratnya identik.`
+      ));
+
+      const jamTidur = randInt(5, 8);
+      pool.push(buildQuestionObj(
+        "MTK JEBAKAN",
+        `Kamu tidur jam 22.00 dan pasang alarm bangun ${jamTidur} jam kemudian. Jam berapa alarm bunyi?`,
+        `Jam ${(22 + jamTidur) % 24}:00`,
+        [`Jam ${(22 + jamTidur + 1) % 24}:00`, "Jam 12:00", "Jam 03:00"],
+        `22.00 ditambah ${jamTidur} jam hasilnya jam ${(22 + jamTidur) % 24}:00.`
+      ));
+
+      // 3. Generator soal PKN & IPS jebakan acak
+      const provinsiIbuKota = [
+        { prov: "Jawa Barat", ibu: "Bandung", salah: ["Surabaya", "Semarang", "Yogyakarta"] },
+        { prov: "Jawa Tengah", ibu: "Semarang", salah: ["Bandung", "Surabaya", "Solo"] },
+        { prov: "Jawa Timur", ibu: "Surabaya", salah: ["Malang", "Bandung", "Semarang"] },
+        { prov: "Sumatera Selatan", ibu: "Palembang", salah: ["Medan", "Padang", "Pekanbaru"] }
+      ];
+      const pIdx = pickRandom(provinsiIbuKota);
+      pool.push(buildQuestionObj(
+        "PKN / IPS",
+        `Ibu kota provinsi ${pIdx.prov} adalah...`,
+        pIdx.ibu,
+        pIdx.salah,
+        `Ibu kota ${pIdx.prov} adalah ${pIdx.ibu}.`
+      ));
+
+      pool.push(buildQuestionObj(
+        "PKN JEBAKAN",
+        "Warna bendera nasional Indonesia dari atas ke bawah adalah...",
+        "Merah - Putih",
+        ["Putih - Merah", "Merah - Putih - Biru", "Merah - Kuning"],
+        "Bendera negara Indonesia berwarna Merah di atas dan Putih di bawah."
+      ));
+
+      pool.push(buildQuestionObj(
+        "IPS JEBAKAN",
+        "Angin yang bertiup dari laut ke darat pada siang hari disebut angin...",
+        "Angin laut",
+        ["Angin darat", "Angin topan", "Angin muson"],
+        "Siang hari daratan lebih cepat panas sehingga angin bergerak dari laut ke darat (angin laut)."
+      ));
+
+      // 4. Generator soal logika receh acak
+      const kata = pickRandom(["KASUR", "KATUR", "MALAM", "TAHUN"]);
+      const dibalik = kata.split("").reverse().join("");
+      pool.push(buildQuestionObj(
+        "LOGIKA RECEH",
+        `Kalau kata "${kata}" dibaca dari belakang jadi apa?`,
+        dibalik,
+        [kata, kata.toLowerCase(), "NGAK TAU"],
+        `"${kata}" dibaca dari belakang menjadi "${dibalik}".`
+      ));
+
+      const bulan = pickRandom(["Januari", "Maret", "Mei", "Juli", "Agustus"]);
+      pool.push(buildQuestionObj(
+        "LOGIKA RECEH",
+        `Bulan ${bulan} punya berapa hari yang tanggalnya ada angka 28-nya?`,
+        "1 hari (tanggal 28)",
+        ["28 hari", "30 hari", "31 hari"],
+        `Dalam sebulan, tanggal 28 ya cuma muncul 1 kali.`
+      ));
+
+      return shuffle(pool).slice(0, TOTAL_QUESTIONS);
+    }
+
+    function renderSteps() {
+      elStepBars.innerHTML = "";
+      for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const div = document.createElement("div");
+        div.className = "step";
+        if (i < currentIndex) {
+          div.classList.add(questions[i]._isCorrect ? "done-ok" : "done-bad");
+        } else if (i === currentIndex) {
+          div.classList.add("current");
+        }
+        elStepBars.appendChild(div);
+      }
+    }
+
+    function updateStatsUI() {
+      elPlayerCount.textContent = formatNum(playersAlive);
+      elPotentialCoins.textContent = formatNum(potentialCoins) + " 🪙";
+    }
+
+    function clearTimers() {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+      if (advanceId) {
+        clearTimeout(advanceId);
+        advanceId = null;
+      }
+    }
+
+    function startQuiz() {
+      clearTimers();
+      questions = generateDynamicQuestionPool();
+      currentIndex = 0;
+      correctCount = 0;
+      potentialCoins = 0;
+      playersAlive = randInt(48000, 75000);
+
+      elLobby.classList.add("hidden");
+      elResult.classList.add("hidden");
+      elQuiz.classList.remove("hidden");
+
+      updateStatsUI();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      clearTimers();
+      answeredCurrent = false;
+      timeLeft = QUESTION_SECONDS;
+
+      const q = questions[currentIndex];
+      elQCounter.textContent = `Soal ${currentIndex + 1}/${TOTAL_QUESTIONS} • Acak per Sesi`;
+      elCategory.textContent = q.category;
+      elQText.textContent = q.prompt;
+      elFeedbackBar.className = "feedback-bar";
+      elFeedbackBar.textContent = "";
+
+      elTimerBadge.textContent = `${timeLeft}s`;
+      elTimerBadge.classList.remove("urgent");
+      renderSteps();
+
+      elOptionsBox.innerHTML = "";
+      const letters = ["A", "B", "C", "D"];
+      q.choices.forEach((choiceText, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "opt-btn";
+        btn.innerHTML = `<span class="opt-letter">${letters[idx]}</span><span>${choiceText}</span>`;
+        btn.addEventListener("click", () => handleAnswer(choiceText, btn));
+        elOptionsBox.appendChild(btn);
+      });
+
+      timerId = setInterval(() => {
+        timeLeft -= 1;
+        // Pemain berkurang seiring berjalan waktu
+        const dropRate = randInt(450, 1900);
+        playersAlive = Math.max(120, playersAlive - dropRate);
+        updateStatsUI();
+
+        if (timeLeft <= 0) {
+          timeLeft = 0;
+          elTimerBadge.textContent = "0s";
+          elTimerBadge.classList.add("urgent");
+          handleTimeout();
+        } else {
+          elTimerBadge.textContent = `${timeLeft}s`;
+          if (timeLeft <= 3) {
+            elTimerBadge.classList.add("urgent");
+          }
+        }
+      }, 1000);
+    }
+
+    function lockOptions() {
+      const buttons = elOptionsBox.querySelectorAll(".opt-btn");
+      buttons.forEach((b) => {
+        b.disabled = true;
+      });
+    }
+
+    function highlightCorrectOption() {
+      const q = questions[currentIndex];
+      const buttons = elOptionsBox.querySelectorAll(".opt-btn");
+      buttons.forEach((b) => {
+        const label = b.querySelectorAll("span")[1].textContent;
+        if (label === q.answer) {
+          b.classList.add("correct");
+        }
+      });
+    }
+
+    function handleAnswer(selectedText, btnEl) {
+      if (answeredCurrent) return;
+      answeredCurrent = true;
+      clearTimers();
+      lockOptions();
+
+      const q = questions[currentIndex];
+      const isRight = selectedText === q.answer;
+      q._isCorrect = isRight;
+
+      if (isRight) {
+        btnEl.classList.add("correct");
+        correctCount += 1;
+        potentialCoins += COIN_PER_CORRECT;
+        playersAlive = Math.max(100, playersAlive - randInt(300, 900));
+        elFeedbackBar.className = "feedback-bar show ok";
+        elFeedbackBar.textContent = `✓ Benar! +${formatNum(COIN_PER_CORRECT)} potensi koin. ${q.explanation}`;
+      } else {
+        btnEl.classList.add("wrong");
+        highlightCorrectOption();
+        playersAlive = Math.max(100, playersAlive - randInt(1200, 3200));
+        elFeedbackBar.className = "feedback-bar show bad";
+        elFeedbackBar.textContent = `✕ Salah! Jawaban benar: ${q.answer}. ${q.explanation}`;
+      }
+
+      updateStatsUI();
+      renderSteps();
+      scheduleNext();
+    }
+
+    function handleTimeout() {
+      if (answeredCurrent) return;
+      answeredCurrent = true;
+      clearTimers();
+      lockOptions();
+      highlightCorrectOption();
+
+      const q = questions[currentIndex];
+      q._isCorrect = false;
+      playersAlive = Math.max(100, playersAlive - randInt(1500, 3500));
+      updateStatsUI();
+      renderSteps();
+
+      elFeedbackBar.className = "feedback-bar show bad";
+      elFeedbackBar.textContent = `⌛ Waktu habis! Jawaban benar: ${q.answer}. ${q.explanation}`;
+      scheduleNext();
+    }
+
+    function scheduleNext() {
+      advanceId = setTimeout(() => {
+        if (currentIndex + 1 < TOTAL_QUESTIONS) {
+          currentIndex += 1;
+          loadQuestion();
+        } else {
+          showFinalResult();
+        }
+      }, 1500);
+    }
+
+    function showFinalResult() {
+      clearTimers();
+      elQuiz.classList.add("hidden");
+      elResult.classList.remove("hidden");
+
+      const elEmoji = document.getElementById("resEmoji");
+      const elBanner = document.getElementById("resBanner");
+      const elSub = document.getElementById("resSub");
+      const elSummary = document.getElementById("resSummary");
+
+      elSummary.textContent = `${correctCount}/${TOTAL_QUESTIONS} Benar • ${formatNum(potentialCoins)} Koin`;
+
+      if (correctCount === TOTAL_QUESTIONS) {
+        elEmoji.textContent = "🏆";
+        elBanner.className = "win-banner";
+        elBanner.textContent = "GOKIL! SAPU BERSIH 800.000 KOIN!";
+        elSub.textContent = "Selamat! Koin 800.000 udah masuk catatan—cairnya lewat mimpi ya bro 😴✨";
+      } else {
+        elEmoji.textContent = "🤡";
+        elBanner.className = "roast-banner";
+        elBanner.textContent = "bloon banget wok😂😂";
+        const wrongCount = TOTAL_QUESTIONS - correctCount;
+        elSub.textContent = `Ada ${wrongCount} soal yang kepleset/habis waktu. Belum tembus 10/10, coba lagi tuh!`;
+      }
+    }
+
+    function resetToLobby() {
+      clearTimers();
+      elQuiz.classList.add("hidden");
+      elResult.classList.add("hidden");
+      elLobby.classList.remove("hidden");
+    }
+
+    const botNicks = ["r***3", "s***w", "m***h", "a***z", "d***n", "k***a", "b***u"];
+    const botLines = [
+      "Bbbb",
+      "Serbu rabu lah",
+      "60 menit woy",
+      "Awas jebakan tanggal!",
+      "Waktunya cepet banget",
+      "Aku pilih B bang",
+      "800 ribu cairnya kapan nih?"
+    ];
+
+    function appendChat(nick, text) {
+      const item = document.createElement("div");
+      item.className = "chat-bubble";
+      item.innerHTML = `<span class="nick">${nick}:</span><span>${text}</span>`;
+      elChatList.appendChild(item);
+      if (elChatList.children.length > 12) {
+        elChatList.removeChild(elChatList.firstChild);
+      }
+      elChatList.scrollTop = elChatList.scrollHeight;
+    }
+
+    function seedChat() {
+      elChatList.innerHTML = "";
+      appendChat("r***3", "Bbbb");
+      appendChat("s***w", "Serbu rabu lah");
+      appendChat("m***h", "60 menit woy");
+    }
+
+    elChatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const val = elChatInput.value.trim();
+      if (!val) return;
+      appendChat("Kamu", val);
+      elChatInput.value = "";
+    });
+
+    document.getElementById("btnStart").addEventListener("click", startQuiz);
+    document.getElementById("btnRestart").addEventListener("click", startQuiz);
+    document.getElementById("btnResetTop").addEventListener("click", resetToLobby);
+
+    seedChat();
+    chatTimerId = setInterval(() => {
+      appendChat(pickRandom(botNicks), pickRandom(botLines));
+    }, 2800);
+  </script>
+</body>
+</html>

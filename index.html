@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Kuis Receh — 1.000 Soal Acak</title>
+  <style>
+    :root {
+      --bg-top: #ff8c24;
+      --bg-bottom: #b84200;
+      --card: #ffffff;
+      --ink: #1e1b18;
+      --muted: #6b5e54;
+      --accent: #f97316;
+      --accent-dark: #c2410c;
+      --ok-bg: #dcfce7;
+      --ok-border: #16a34a;
+      --ok-ink: #14532d;
+      --bad-bg: #ffe4e6;
+      --bad-border: #e11d48;
+      --bad-ink: #881337;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100dvh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 50% 0%, #ffb35c 0%, var(--bg-top) 38%, var(--bg-bottom) 100%);
+      overflow-x: hidden;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px 12px 16px;
+      gap: 10px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(58, 20, 0, 0.35);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      color: #fff;
+      font-weight: 900;
+      font-size: 18px;
+      line-height: 1.05;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.28);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-title span {
+      display: block;
+      font-size: 15px;
+      color: #fef08a;
+    }
+
+    .pool-pill {
+      background: rgba(66, 22, 0, 0.65);
+      border: 1px solid rgba(255, 224, 130, 0.45);
+      border-radius: 12px;
+      padding: 5px 10px;
+      text-align: right;
+      color: #fff;
+    }
+
+    .pool-pill small {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.5px;
+      opacity: 0.85;
+      font-weight: 700;
+    }
+
+    .pool-pill strong {
+      font-size: 13px;
+      color: #fde047;
+      font-weight: 900;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 15px 14px;
+      box-shadow: 0 12px 28px rgba(45, 14, 0, 0.32);
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .live-badge {
+      background: #ffedd5;
+      color: #c2410c;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.4px;
+    }
+
+    .hero-title {
+      margin: 0 0 6px;
+      text-align: center;
+      font-size: 22px;
+      line-height: 1.2;
+      font-weight: 900;
+      color: #18181b;
+    }
+
+    .hero-title .gold {
+      color: #ea580c;
+    }
+
+    .hero-sub {
+      margin: 0 0 12px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .info-box {
+      background: #fefce8;
+      border: 1px solid #fde047;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .info-box p {
+      margin: 0 0 4px;
+    }
+
+    .info-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-box .snk {
+      font-size: 11.5px;
+      color: #713f12;
+      font-style: italic;
+    }
+
+    .btn-primary {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 13px 16px;
+      font-size: 15px;
+      font-weight: 900;
+      color: #fff;
+      background: linear-gradient(180deg, #fb923c 0%, #ea580c 100%);
+      box-shadow: 0 5px 0 #9a3412;
+      cursor: pointer;
+      transition: transform 0.08s ease;
+    }
+
+    .btn-primary:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #9a3412;
+    }
+
+    .mode-banner {
+      background: #fffbeb;
+      border-radius: 14px;
+      padding: 7px 11px;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11.5px;
+      line-height: 1.25;
+    }
+
+    .mode-banner strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 900;
+      color: #18181b;
+    }
+
+    .mode-banner span {
+      color: #52525b;
+      font-weight: 600;
+    }
+
+    .mode-banner span b {
+      color: #ea580c;
+    }
+
+    .coin-gain-toast {
+      background: linear-gradient(90deg, #16a34a, #22c55e);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 4px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(22, 163, 74, 0.35);
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .coin-gain-toast.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 6px 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .stat-box small {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .stat-box strong {
+      font-size: 14.5px;
+      font-weight: 900;
+      color: #18181b;
+    }
+
+    .stat-box strong.coin-pot {
+      color: #c2410c;
+    }
+
+    .q-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 5px;
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .step {
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.35);
+    }
+
+    .step.done-ok { background: #4ade80; }
+    .step.done-bad { background: #fb7185; }
+    .step.current { background: #fde047; }
+
+    .q-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+
+    .timer-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 2px solid #cbd5e1;
+      background: #f8fafc;
+      color: #18181b;
+      font-size: 12.5px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .timer-circle.urgent {
+      border-color: #e11d48;
+      background: #ffe4e6;
+      color: #be123c;
+    }
+
+    .cat-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .q-text {
+      margin: 0 0 8px;
+      font-size: 14.5px;
+      line-height: 1.38;
+      font-weight: 800;
+      color: #18181b;
+    }
+
+    .active-rule-strip {
+      background: #f4f4f5;
+      color: #3f3f46;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-align: center;
+      padding: 6px 10px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .opt-btn {
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1.5px solid #e4e4e7;
+      background: #fafafa;
+      color: #18181b;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.28;
+      cursor: pointer;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: #fb923c;
+      background: #fff7ed;
+    }
+
+    .opt-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .opt-letter {
+      width: 23px;
+      height: 23px;
+      border-radius: 8px;
+      background: #f4f4f5;
+      border: 1px solid #d4d4d8;
+      display: grid;
+      place-items: center;
+      font-size: 11.5px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .lock-tag {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .opt-btn.correct {
+      background: var(--ok-bg);
+      border-color: var(--ok-border);
+      color: var(--ok-ink);
+    }
+
+    .opt-btn.correct .opt-letter {
+      background: var(--ok-border);
+      border-color: var(--ok-border);
+      color: #fff;
+    }
+
+    .opt-btn.wrong {
+      background: var(--bad-bg);
+      border-color: var(--bad-border);
+      color: var(--bad-ink);
+    }
+
+    .opt-btn.wrong .opt-letter {
+      background: var(--bad-border);
+      border-color: var(--bad-border);
+      color: #fff;
+    }
+
+    .opt-btn.locked-choice {
+      background: #fff7ed;
+      border-color: #f97316;
+      color: #9a3412;
+    }
+
+    .opt-btn.locked-choice .opt-letter {
+      background: #f97316;
+      border-color: #f97316;
+      color: #fff;
+    }
+
+    .opt-btn.locked-choice .lock-tag {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+
+    .feedback-bar {
+      margin-top: 7px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: none;
+    }
+
+    .feedback-bar.show { display: block; }
+    .feedback-bar.ok { background: var(--ok-bg); color: var(--ok-ink); }
+    .feedback-bar.bad { background: var(--bad-bg); color: var(--bad-ink); }
+
+    .result-emoji {
+      text-align: center;
+      font-size: 40px;
+      margin-bottom: 4px;
+    }
+
+    .roast-banner {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 900;
+      color: #e11d48;
+      margin: 4px 0 6px;
+      line-height: 1.2;
+    }
+
+    .win-banner {
+      text-align: center;
+      font-size: 21px;
+      font-weight: 900;
+      color: #15803d;
+      margin: 4px 0 6px;
+      line-height: 1.2;
+    }
+
+    .result-sub {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 12px;
+      line-height: 1.45;
+    }
+
+    .result-box {
+      background: #18181b;
+      color: #fff;
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .result-box small {
+      display: block;
+      font-size: 10.5px;
+      opacity: 0.75;
+      font-weight: 700;
+    }
+
+    .result-box strong {
+      font-size: 20px;
+      color: #fde047;
+      font-weight: 900;
+    }
+
+    .chat-section {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding-top: 2px;
+    }
+
+    .chat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      max-height: 126px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .chat-bubble {
+      align-self: flex-start;
+      max-width: 92%;
+      background: rgba(45, 16, 0, 0.74);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      line-height: 1.3;
+      backdrop-filter: blur(4px);
+    }
+
+    .chat-bubble .nick {
+      color: #fdba74;
+      font-weight: 700;
+      margin-right: 4px;
+    }
+
+    .chat-form {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chat-input {
+      flex: 1;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(32, 10, 0, 0.68);
+      color: #fff;
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .chat-input::placeholder {
+      color: rgba(255,255,255,0.65);
+    }
+
+    .send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: none;
+      background: #f97316;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div>
+      <div class="topbar">
+        <button class="icon-btn" id="btnResetTop" title="Reset">✕</button>
+        <div class="brand-title">
+          Kuis 💡
+          <span>Receh</span>
+        </div>
+        <div class="pool-pill">
+          <small>BANK SOAL LUCU</small>
+          <strong id="bankCountLabel">150+ SOAL</strong>
+        </div>
+      </div>
+
+      <!-- Lobby -->
+      <div class="card" id="lobbyScreen" style="margin-top: 10px;">
+        <div class="badge-row">
+          <span class="live-badge">● KISI-KISI KUIS SHOPEE • 10 SOAL UNIK PER SESI</span>
+        </div>
+        <h1 class="hero-title">Sapu Bersih 10 Soal,<br><span class="gold">Menangkan 800.000 Koin!</span></h1>
+        <p class="hero-sub">Sekali klik jawaban langsung digembok! Salah satu soal aja langsung gugur &amp; mulai sesi baru dengan soal berbeda.</p>
+        <div class="info-box">
+                              <p>🪙 Tiap jawaban benar nambah <strong>+80.000 Koin</strong> potensi (plus 1–2 soal jadwal promo).</p>
+          <p class="snk">*Syarat &amp; ketentuan: koin cuma buat seru-seruan &amp; pamer skor aja 😜</p>
+        </div>
+        <button class="btn-primary" id="btnStart">MULAI MAIN KUIS (SOAL BARU) 🚀</button>
+      </div>
+
+      <!-- Quiz -->
+      <div id="quizScreen" class="hidden" style="margin-top: 8px;">
+        <div class="mode-banner">
+          <div>
+            <strong id="statusTitle">◎ Mode Aktif • Sudden Death</strong>
+            <span id="statusSub">Benar dapat <b>+80.000 Koin</b> potensi</span>
+          </div>
+          <div class="coin-gain-toast" id="coinGainToast">+80.000 Koin!</div>
+        </div>
+
+        <div class="stats-strip">
+          <div class="stat-box">
+            <small>Pemain Saat Ini</small>
+            <strong id="playerCount">58.420</strong>
+          </div>
+          <div class="stat-box">
+            <small>Potensi Koinmu</small>
+            <strong class="coin-pot" id="potentialCoins">0 🪙</strong>
+          </div>
+        </div>
+
+        <div class="q-meta">
+          <span id="qCounter">Soal 1/10</span>
+          <span style="font-size:11px;opacity:0.9;">Anti-Ulang Tiap Sesi</span>
+        </div>
+
+        <div class="steps" id="stepBars"></div>
+
+        <div class="card">
+          <div class="q-card-top">
+            <div class="timer-circle" id="timerBadge">10</div>
+            <span class="cat-tag" id="qCategory">KOMEDI LOGIKA</span>
+          </div>
+          <h2 class="q-text" id="qText">Memuat soal...</h2>
+          <div class="active-rule-strip" id="activeRuleStrip">🔒 Klik 1 jawaban — langsung digembok permanen!</div>
+          <div class="options" id="optionsBox"></div>
+          <div class="feedback-bar" id="feedbackBar"></div>
+        </div>
+      </div>
+
+      <!-- Result / Gugur -->
+      <div class="card hidden" id="resultScreen" style="margin-top: 10px;">
+        <div class="result-emoji" id="resEmoji">🤡</div>
+        <div class="roast-banner" id="resBanner">oon banget belajar lagi dek</div>
+        <p class="result-sub" id="resSub">Langsung gugur dan nggak bisa lanjut. Sesi berikutnya otomatis pakai set soal baru yang beda!</p>
+        <div class="result-box">
+          <small>DETAIL JAWABAN &amp; POTENSI KOIN</small>
+          <strong id="resSummary">0/10 • 0 Koin</strong>
+        </div>
+        <button class="btn-primary" id="btnRestart">MULAI LAGI DARI AWAL (SOAL BEDA) 🔄</button>
+      </div>
+    </div>
+
+    <!-- Live Chat -->
+    <div class="chat-section">
+      <div class="chat-list" id="chatList"></div>
+      <form class="chat-form" id="chatForm">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Beri Komentar..." maxlength="90" autocomplete="off" />
+        <button type="submit" class="send-btn" aria-label="Kirim">➤</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const TOTAL_QUESTIONS = 10;
+    const QUESTION_SECONDS = 10;
+    const COIN_PER_CORRECT = 80000;
+    const TARGET_BANK_SIZE = 1000;
+
+    let questions = [];
+    let currentIndex = 0;
+    let correctCount = 0;
+    let potentialCoins = 0;
+    let playersAlive = 58420;
+    let timeLeft = QUESTION_SECONDS;
+    let answeredCurrent = false;
+    let selectedChoiceText = null;
+    let timerId = null;
+    let advanceId = null;
+    let chatTimerId = null;
+
+    // Menyimpan signature soal yang sudah pernah muncul agar tidak berulang tiap sesi/mulai lagi
+    const seenQuestionKeys = new Set();
+
+    const elLobby = document.getElementById("lobbyScreen");
+    const elQuiz = document.getElementById("quizScreen");
+    const elResult = document.getElementById("resultScreen");
+    const elPlayerCount = document.getElementById("playerCount");
+    const elPotentialCoins = document.getElementById("potentialCoins");
+    const elQCounter = document.getElementById("qCounter");
+    const elTimerBadge = document.getElementById("timerBadge");
+    const elStepBars = document.getElementById("stepBars");
+    const elCategory = document.getElementById("qCategory");
+    const elQText = document.getElementById("qText");
+    const elOptionsBox = document.getElementById("optionsBox");
+    const elFeedbackBar = document.getElementById("feedbackBar");
+    const elChatList = document.getElementById("chatList");
+    const elChatForm = document.getElementById("chatForm");
+    const elChatInput = document.getElementById("chatInput");
+
+    const formatNum = (n) => Math.max(0, Math.round(n)).toLocaleString("id-ID");
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function shuffle(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function stripHash(str) {
+      return String(str).replace(/#/g, "").trim();
+    }
+
+    function buildQuestionObj(category, prompt, correctAnswer, distractors, explanation) {
+      const cleanAns = stripHash(correctAnswer);
+      const uniqueDistractors = Array.from(
+        new Set(
+          distractors
+            .map(stripHash)
+            .filter((d) => d && d !== cleanAns && !d.includes("#"))
+        )
+      ).slice(0, 3);
+
+      const fallbackPool = [
+        "Opsi nyasar",
+        "Pengecoh santai",
+        "Bukan yang ini",
+        "Tebakan iseng",
+        "Jalur salah",
+        "Kira-kira begitu"
+      ];
+
+      let fIdx = 0;
+      while (uniqueDistractors.length < 3) {
+        const cand = fallbackPool[fIdx % fallbackPool.length] + " " + (fIdx + 1);
+        if (cand !== cleanAns && !uniqueDistractors.includes(cand)) {
+          uniqueDistractors.push(cand);
+        }
+        fIdx += 1;
+      }
+
+      const choices = shuffle([cleanAns, ...uniqueDistractors]);
+      return {
+        category: stripHash(category),
+        prompt: stripHash(prompt),
+        choices,
+        answer: cleanAns,
+        explanation: stripHash(explanation)
+      };
+    }
+
+    // Soal-soal jadwal campaign / jam promo / hari khusus (pict ke-6) -> wajib muncul 1-2 soal tiap mulai
+    function generatePromoScheduleQuestions() {
+      const promoBank = [
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Di tabel jadwal campaign, tanggal 1 masuk ke campaign apa?",
+          "Super Beauty",
+          ["VIP Day", "Produk Lokal Day", "Fashion Day"],
+          "Tanggal 1 di jadwal campaign adalah Super Beauty."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Berdasarkan jadwal campaign, tanggal 1-6 termasuk kategori apa?",
+          "Periode promo tertentu",
+          ["Super Beauty", "Birthday Sale", "Payday"],
+          "Tanggal 1-6 tercatat sebagai Periode promo tertentu."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Di tabel jadwal campaign, 12.12 merujuk ke campaign apa?",
+          "Birthday Sale",
+          ["VIP Day", "Produk Lokal Day", "Fashion Day"],
+          "12.12 pada jadwal campaign adalah Birthday Sale."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Tanggal 15 pada jadwal campaign merupakan jadwal untuk apa?",
+          "VIP Day",
+          ["Produk Lokal Day", "Payday", "Super Beauty"],
+          "Tanggal 15 di tabel jadwal adalah VIP Day."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Berdasarkan daftar campaign, tanggal 17 masuk ke promo apa?",
+          "Produk Lokal Day",
+          ["Birthday Sale", "VIP Day", "Fashion Day"],
+          "Tanggal 17 di tabel jadwal adalah Produk Lokal Day."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Kalau tanggal 25 Payday dan tanggal 30 Fashion Day, tanggal 23-24 masuk ke mana?",
+          "Periode promo tertentu",
+          ["Fashion Day", "Payday", "Super Beauty"],
+          "Tanggal 23-24 di jadwal adalah Periode promo tertentu."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Tanggal 25 di tabel jadwal campaign disebut apa?",
+          "Payday",
+          ["Fashion Day", "VIP Day", "Produk Lokal Day"],
+          "Tanggal 25 pada jadwal campaign adalah Payday."
+        ),
+        buildQuestionObj(
+          "JADWAL PROMO",
+          "Tanggal 30 pada jadwal campaign masuk ke kategori apa?",
+          "Fashion Day",
+          ["Payday", "Birthday Sale", "VIP Day"],
+          "Tanggal 30 pada jadwal campaign adalah Fashion Day."
+        ),
+        buildQuestionObj(
+          "HARI KHUSUS",
+          "Pada bagian Hari Khusus, hari Senin disebut apa?",
+          "Mall Monday",
+          ["Serbu Rabu", "Payday", "VIP Day"],
+          "Hari Khusus Senin pada jadwal adalah Mall Monday."
+        ),
+        buildQuestionObj(
+          "HARI KHUSUS",
+          "Pada bagian Hari Khusus, hari Rabu disebut apa?",
+          "Serbu Rabu",
+          ["Mall Monday", "Fashion Day", "Birthday Sale"],
+          "Hari Khusus Rabu pada jadwal adalah Serbu Rabu."
+        ),
+        buildQuestionObj(
+          "JAM PROMO",
+          "Manakah yang termasuk patokan Jam Promo pada jadwal?",
+          "00.00-05.59",
+          ["06.30", "14.15", "22.45"],
+          "00.00-05.59 adalah salah satu patokan Jam Promo di jadwal."
+        ),
+        buildQuestionObj(
+          "JAM PROMO",
+          "Selain 09.00 dan 11.59, mana lagi yang masuk patokan Jam Promo di jadwal?",
+          "17.59",
+          ["07.45", "13.30", "23.10"],
+          "17.59 termasuk patokan Jam Promo di tabel."
+        ),
+        buildQuestionObj(
+          "JAM PROMO",
+          "Manakah yang termasuk patokan Jam Promo malam hari pada jadwal?",
+          "20.00-20.59",
+          ["18.30", "21.30", "23.00-23.59"],
+          "20.00-20.59 adalah patokan Jam Promo di jadwal."
+        )
+      ];
+      return shuffle(promoBank);
+    }
+
+    // Bank soal murni diambil dari kisi-kisi gambar yang di-upload (IMG_0361, IMG_0362, IMG_0360, IMG_0359, IMG_0358, IMG_0357, IMG_0356, IMG_0354, IMG_0355, IMG_0353)
+    function buildThousandFunnyBank() {
+      const rawItems = [
+        // IMG_0361 (18/20) - Tebakan Receh: Logika
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya pintu, tak punya rumah — tebakannya apa?", "Mobil", ["Lemari", "Garasi", "Kandang"], "Sesuai kisi-kisi: punya pintu, tak punya rumah = Mobil."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya mulut, tak bisa bicara — tebakannya apa?", "Sungai", ["Gua", "Sumur", "Botol"], "Sesuai kisi-kisi: punya mulut, tak bisa bicara = Sungai."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya sayap, bukan burung — tebakannya apa?", "Pesawat", ["Capung", "Kelelawar", "Kipas"], "Sesuai kisi-kisi: punya sayap, bukan burung = Pesawat."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya lidah, tak bisa mencicipi — tebakannya apa?", "Sepatu", ["Api", "Garpu", "Sandal"], "Sesuai kisi-kisi: punya lidah, tak bisa mencicipi = Sepatu."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya akar, bukan tumbuhan — tebakannya apa?", "Gigi", ["Rambut", "Kuku", "Tulang"], "Sesuai kisi-kisi: punya akar, bukan tumbuhan = Gigi."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya bulu, bukan hewan — tebakannya apa?", "Kuas", ["Bantal", "Karpet", "Sapu"], "Sesuai kisi-kisi: punya bulu, bukan hewan = Kuas."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya lengan, tak bisa memeluk — tebakannya apa?", "Baju", ["Kursi", "Meja", "Pintu"], "Sesuai kisi-kisi: punya lengan, tak bisa memeluk = Baju."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Wajah dan tangan, tak berkaki — tebakannya apa?", "Jam dinding", ["Boneka", "Patung", "Cermin"], "Sesuai kisi-kisi: wajah dan tangan, tak berkaki = Jam dinding."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya 12 angka, tak bisa berhitung — tebakannya apa?", "Jam", ["Kalender", "Kalkulator", "Penggaris"], "Sesuai kisi-kisi: punya 12 angka, tak bisa berhitung = Jam."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya telinga, tak bisa mendengar — tebakannya apa?", "Cangkir", ["Helm", "Topi", "Ember"], "Sesuai kisi-kisi: punya telinga, tak bisa mendengar = Cangkir."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya kaki dan punggung, tak bisa jalan — tebakannya apa?", "Kursi", ["Meja", "Kasur", "Lemari"], "Sesuai kisi-kisi: punya kaki dan punggung, tak bisa jalan = Kursi."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Jarum yang tak bisa menjahit — tebakannya apa?", "Jarum jam", ["Jarum suntik", "Jarum kompas", "Jarum pentul"], "Sesuai kisi-kisi: jarum yang tak bisa menjahit = Jarum jam."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya kepala, tak bisa berpikir — tebakannya apa?", "Paku", ["Baut", "Palung", "Gelas"], "Sesuai kisi-kisi: punya kepala, tak bisa berpikir = Paku."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya ekor, bukan hewan — tebakannya apa?", "Layang-layang", ["Komet", "Pesawat", "Roket"], "Sesuai kisi-kisi: punya ekor, bukan hewan = Layang-layang."],
+        ["LOGIKA • PUNYA TAPI TAK BISA", "Punya banyak cabang, bukan pohon — tebakannya apa?", "Bank", ["Jalan", "Sungai", "Kantor"], "Sesuai kisi-kisi: punya banyak cabang, bukan pohon = Bank."],
+        ["BENDA SEHARI-HARI", "Makin dipakai makin pendek — tebakannya apa?", "Lilin", ["Kapur", "Sabun", "Pensil"], "Sesuai kisi-kisi: makin dipakai makin pendek = Lilin."],
+        ["BENDA SEHARI-HARI", "Keliling dunia, tetap di pojok — tebakannya apa?", "Perangko", ["Kompas", "Peta", "Koper"], "Sesuai kisi-kisi: keliling dunia, tetap di pojok = Perangko."],
+        ["BENDA SEHARI-HARI", "Naik turun, tak bergerak — tebakannya apa?", "Tangga", ["Lift", "Eskalator", "Jembatan"], "Sesuai kisi-kisi: naik turun, tak bergerak = Tangga."],
+        ["BENDA SEHARI-HARI", "Banyak cerita, tak bisa bicara — tebakannya apa?", "Buku", ["Koran", "Majalah", "Radio"], "Sesuai kisi-kisi: banyak cerita, tak bisa bicara = Buku."],
+        ["BENDA SEHARI-HARI", "Tak berawal, tak berakhir — tebakannya apa?", "Lingkaran", ["Garis", "Segitiga", "Persegi"], "Sesuai kisi-kisi: tak berawal, tak berakhir = Lingkaran."],
+        ["BENDA SEHARI-HARI", "Keliling rumah tanpa bergerak — tebakannya apa?", "Pagar", ["Teras", "Atap", "Selokan"], "Sesuai kisi-kisi: keliling rumah tanpa bergerak = Pagar."],
+        ["BENDA SEHARI-HARI", "Makin diraut makin pendek — tebakannya apa?", "Pensil", ["Kayu", "Rautan", "Kertas"], "Sesuai kisi-kisi: makin diraut makin pendek = Pensil."],
+        ["BENDA SEHARI-HARI", "Dibuang saat dibutuhkan, diambil saat tak dibutuhkan — tebakannya apa?", "Jangkar", ["Sauh", "Kail", "Jaring"], "Sesuai kisi-kisi: dibuang saat dibutuhkan, diambil saat tak dibutuhkan = Jangkar."],
+        ["BENDA SEHARI-HARI", "Banyak lubang, menampung air — tebakannya apa?", "Spons", ["Saringan", "Ayakan", "Keranjang"], "Sesuai kisi-kisi: banyak lubang, menampung air = Spons."],
+        ["BENDA SEHARI-HARI", "Daun tak pernah gugur — tebakannya apa?", "Daun telinga", ["Daun pintu", "Daun pisang", "Daun mangga"], "Sesuai kisi-kisi: daun tak pernah gugur = Daun telinga."],
+
+        // IMG_0362 (19/20) - Tebakan Receh: Logika
+        ["BENDA SEHARI-HARI", "Biji di luar buah — tebakannya apa?", "Stroberi", ["Semangka", "Pepaya", "Mangga"], "Sesuai kisi-kisi: biji di luar buah = Stroberi."],
+        ["BENDA SEHARI-HARI", "Makin dipakai makin kecil — tebakannya apa?", "Sabun", ["Lilin", "Kapur", "Penghapus"], "Sesuai kisi-kisi: makin dipakai makin kecil = Sabun."],
+        ["BENDA SEHARI-HARI", "Naik saat hujan turun — tebakannya apa?", "Payung", ["Jas hujan", "Topi", "Handuk"], "Sesuai kisi-kisi: naik saat hujan turun = Payung."],
+        ["BENDA SEHARI-HARI", "Kepala dan ekor, tak berbadan — tebakannya apa?", "Koin", ["Ular", "Cacing", "Kunci"], "Sesuai kisi-kisi: kepala dan ekor, tak berbadan = Koin."],
+        ["TAK KASATMATA", "Dibagi malah hilang — tebakannya apa?", "Rahasia", ["Kabar", "Berita", "Cerita"], "Sesuai kisi-kisi: dibagi malah hilang = Rahasia."],
+        ["TAK KASATMATA", "Ringan dari bulu, tak bisa ditahan — tebakannya apa?", "Napas", ["Angin", "Asap", "Debu"], "Sesuai kisi-kisi: ringan dari bulu, tak bisa ditahan = Napas."],
+        ["TAK KASATMATA", "Bisa dipecahkan tanpa dijatuhkan — tebakannya apa?", "Rekor", ["Kaca", "Telur", "Gelas"], "Sesuai kisi-kisi: bisa dipecahkan tanpa dijatuhkan = Rekor."],
+        ["TAK KASATMATA", "Disebut namanya langsung hilang — tebakannya apa?", "Keheningan", ["Gema", "Bayangan", "Mimpi"], "Sesuai kisi-kisi: disebut namanya langsung hilang = Keheningan."],
+        ["TAK KASATMATA", "Ditangkap bisa, dilempar tak bisa — tebakannya apa?", "Pilek", ["Bola", "Angin", "Panas"], "Sesuai kisi-kisi: ditangkap bisa, dilempar tak bisa = Pilek."],
+        ["TAK KASATMATA", "Didengar, tak bisa disentuh — tebakannya apa?", "Suara", ["Cahaya", "Bayangan", "Panas"], "Sesuai kisi-kisi: didengar, tak bisa disentuh = Suara."],
+        ["TAK KASATMATA", "Terlihat saat mata tertutup — tebakannya apa?", "Mimpi", ["Gelap", "Bayangan", "Cahaya"], "Sesuai kisi-kisi: terlihat saat mata tertutup = Mimpi."],
+        ["JAWABAN NYELENEH", "Tak bisa dimakan buat sarapan — tebakannya apa?", "Makan malam", ["Roti", "Nasi goreng", "Bubur"], "Sesuai kisi-kisi: tak bisa dimakan buat sarapan = Makan malam."],
+        ["JAWABAN NYELENEH", "Sayur yang bikin orang menangis — tebakannya apa?", "Bawang", ["Bayam", "Kangkung", "Wortel"], "Sesuai kisi-kisi: sayur yang bikin orang menangis = Bawang."],
+        ["JAWABAN NYELENEH", "Bawa tangga ke sekolah — tebakannya apa?", "Sekolah tinggi", ["Sekolah dasar", "Sekolah kejuruan", "Sekolah alam"], "Sesuai kisi-kisi: bawa tangga ke sekolah = Sekolah tinggi."],
+
+        // IMG_0360 (17/20) - Tebakan Receh: Logika
+        ["LOGIKA HURUF & ANGKA", "Di tengah Bandung ada apa?", "Huruf D", ["Huruf U", "Huruf N", "Huruf A"], "Sesuai kisi-kisi: di tengah Bandung ada = Huruf D."],
+        ["LOGIKA HURUF & ANGKA", "Tanah di lubang 1 x 1 x 1 meter ada berapa?", "Tidak ada", ["1 meter kubik", "2 meter kubik", "3 meter kubik"], "Sesuai kisi-kisi: tanah di lubang 1 x 1 x 1 meter = Tidak ada."],
+        ["LOGIKA HURUF & ANGKA", "Mulai T, berakhir T, isinya T — tebakannya apa?", "Teko", ["Topi", "Tali", "Tamu"], "Sesuai kisi-kisi: mulai T, berakhir T, isinya T = Teko."],
+        ["LOGIKA HURUF & ANGKA", "Jumlah bulan yang punya 31 hari ada berapa?", "7", ["6", "8", "5"], "Sesuai kisi-kisi: jumlah bulan yang punya 31 hari = 7."],
+        ["LOGIKA HURUF & ANGKA", "Setengah dari 8 (dibelah) hasilnya apa?", "0 atau 3 (dibelah)", ["4", "2", "1"], "Sesuai kisi-kisi: setengah dari 8 = 0 atau 3 (dibelah)."],
+        ["LOGIKA HURUF & ANGKA", "Antara langit dan bumi ada apa?", "Kata DAN", ["Awan", "Angin", "Burung"], "Sesuai kisi-kisi: antara langit dan bumi = Kata DAN."],
+        ["LOGIKA HURUF & ANGKA", "Di tengah bumi ada apa?", "Huruf M", ["Huruf U", "Huruf B", "Huruf I"], "Sesuai kisi-kisi: di tengah bumi ada = Huruf M."],
+        ["LOGIKA HURUF & ANGKA", "Sebelum Everest ditemukan, gunung tertinggi di dunia apa?", "Tetap Everest", ["Kilimanjaro", "Jayawijaya", "Fuji"], "Sesuai kisi-kisi: sebelum Everest ditemukan, gunung tertinggi = Tetap Everest."],
+        ["LOGIKA HURUF & ANGKA", "Bulan yang punya 28 hari ada bulan apa saja?", "Semua bulan", ["Februari saja", "April dan Juni", "Januari dan Maret"], "Sesuai kisi-kisi: bulan yang punya 28 hari = Semua bulan."],
+        ["LOGIKA HEWAN", "Rumah yang bisa dibawa-bawa — tebakannya apa?", "Rumah siput", ["Rumah panggung", "Rumah kaca", "Rumah adat"], "Sesuai kisi-kisi: rumah yang bisa dibawa-bawa = Rumah siput."],
+        ["LOGIKA HEWAN", "Dimakan sebelum lahir dan sesudah mati — tebakannya apa?", "Ayam", ["Bebek", "Ikan", "Sapi"], "Sesuai kisi-kisi: dimakan sebelum lahir dan sesudah mati = Ayam."],
+        ["LOGIKA HEWAN", "Hewan paling malas — tebakannya apa?", "Kungkang", ["Kucing", "Kura-kura", "Komodo"], "Sesuai kisi-kisi: hewan paling malas = Kungkang."],
+        ["LOGIKA HEWAN", "Hewan paling kurang ajar (naik kepala) — tebakannya apa?", "Kutu (naik kepala)", ["Nyamuk", "Lalat", "Semut"], "Sesuai kisi-kisi: hewan paling kurang ajar = Kutu (naik kepala)."],
+        ["LOGIKA HEWAN", "Ayam nyeberang jalan tujuannya apa?", "Mau ke seberang", ["Cari makan", "Main bola", "Pulang kandang"], "Sesuai kisi-kisi: ayam nyeberang jalan = Mau ke seberang."],
+        ["LOGIKA HEWAN", "Pocong tak bisa lari karena apa?", "Kakinya terikat", ["Kelelahan", "Gelap", "Kebingungan"], "Sesuai kisi-kisi: pocong tak bisa lari = Kakinya terikat."],
+        ["LOGIKA HEWAN", "Leher jerapah panjang, tandanya apa?", "Kepalanya jauh", ["Badannya kecil", "Kakinya pendek", "Ekornya panjang"], "Sesuai kisi-kisi: leher jerapah panjang = Kepalanya jauh."],
+        ["LOGIKA HEWAN", "Banyak jarum, tak menjahit — tebakannya apa?", "Landak", ["Kaktus", "Nanas", "Durian"], "Sesuai kisi-kisi: banyak jarum, tak menjahit = Landak."],
+        ["AIR, CUACA & ALAM", "Dipanaskan malah padat — tebakannya apa?", "Telur", ["Es batu", "Mentega", "Cokelat"], "Sesuai kisi-kisi: dipanaskan malah padat = Telur."],
+        ["AIR, CUACA & ALAM", "Bintang paling dekat — tebakannya apa?", "Matahari", ["Bulan", "Mars", "Venus"], "Sesuai kisi-kisi: bintang paling dekat = Matahari."],
+        ["AIR, CUACA & ALAM", "Melayang tanpa sayap — tebakannya apa?", "Awan", ["Burung", "Pesawat", "Capung"], "Sesuai kisi-kisi: melayang tanpa sayap = Awan."],
+        ["AIR, CUACA & ALAM", "Makin dicuci makin kotor — tebakannya apa?", "Air", ["Baju", "Lantai", "Kain"], "Sesuai kisi-kisi: makin dicuci makin kotor = Air."],
+        ["AIR, CUACA & ALAM", "Membeku malah mengembang — tebakannya apa?", "Air", ["Minyak", "Susu", "Sirup"], "Sesuai kisi-kisi: membeku malah mengembang = Air."],
+        ["AIR, CUACA & ALAM", "Makin sore makin panjang — tebakannya apa?", "Bayangan", ["Jalan", "Sungai", "Angin"], "Sesuai kisi-kisi: makin sore makin panjang = Bayangan."],
+        ["WAKTU & TEKA-TEKI SINGKAT", "Selalu basah — tebakannya apa?", "Lidah", ["Bibir", "Pipi", "Dagu"], "Sesuai kisi-kisi: selalu basah = Lidah."],
+        ["WAKTU & TEKA-TEKI SINGKAT", "Selalu datang, tak pernah tiba — tebakannya apa?", "Hari esok", ["Hari ini", "Kemarin", "Minggu lalu"], "Sesuai kisi-kisi: selalu datang, tak pernah tiba = Hari esok."],
+        ["WAKTU & TEKA-TEKI SINGKAT", "Makin banyak makin tak terlihat — tebakannya apa?", "Gelap", ["Kabut", "Asap", "Cahaya"], "Sesuai kisi-kisi: makin banyak makin tak terlihat = Gelap."],
+        ["WAKTU & TEKA-TEKI SINGKAT", "Terbang tanpa sayap — tebakannya apa?", "Waktu", ["Angin", "Awan", "Suara"], "Sesuai kisi-kisi: terbang tanpa sayap = Waktu."],
+
+        // IMG_0359 (16/20) - Tebakan Receh: Logika
+        ["LOGIKA KLASIK", "Tembus kaca tanpa memecahkan — tebakannya apa?", "Cahaya", ["Suara", "Angin", "Air"], "Sesuai kisi-kisi: tembus kaca tanpa memecahkan = Cahaya."],
+        ["LOGIKA KLASIK", "Selalu lapar, harus diberi makan — tebakannya apa?", "Api", ["Air", "Angin", "Tanah"], "Sesuai kisi-kisi: selalu lapar, harus diberi makan = Api."],
+        ["LOGIKA KLASIK", "Punya gigi, tak bisa gigit — tebakannya apa?", "Sisir", ["Gergaji", "Garpu", "Sikat"], "Sesuai kisi-kisi: punya gigi, tak bisa gigit = Sisir."],
+        ["LOGIKA KLASIK", "Punya mata, tak bisa melihat — tebakannya apa?", "Jarum", ["Cermin", "Kacamata", "Lampu"], "Sesuai kisi-kisi: punya mata, tak bisa melihat = Jarum."],
+        ["LOGIKA KLASIK", "Selalu di depan, tak terlihat — tebakannya apa?", "Masa depan", ["Bayangan", "Cermin", "Udara"], "Sesuai kisi-kisi: selalu di depan, tak terlihat = Masa depan."],
+        ["LOGIKA KLASIK", "Punya kaki, tak bisa jalan — tebakannya apa?", "Meja", ["Kursi", "Lemari", "Sepatu"], "Sesuai kisi-kisi: punya kaki, tak bisa jalan = Meja."],
+        ["LOGIKA KLASIK", "Turun terus, tak pernah naik — tebakannya apa?", "Hujan", ["Suhu", "Harga", "Asap"], "Sesuai kisi-kisi: turun terus, tak pernah naik = Hujan."],
+        ["LOGIKA KLASIK", "Makin diambil makin besar — tebakannya apa?", "Lubang", ["Kue", "Uang", "Kertas"], "Sesuai kisi-kisi: makin diambil makin besar = Lubang."],
+        ["LOGIKA KLASIK", "Makin diisi makin ringan — tebakannya apa?", "Balon", ["Ember", "Tas", "Botol"], "Sesuai kisi-kisi: makin diisi makin ringan = Balon."],
+        ["LOGIKA KLASIK", "Naik terus, tak pernah turun — tebakannya apa?", "Umur", ["Balon", "Pesawat", "Air"], "Sesuai kisi-kisi: naik terus, tak pernah turun = Umur."],
+        ["LOGIKA KLASIK", "Punyamu, orang lain yang pakai — tebakannya apa?", "Namamu", ["Bajumu", "Sepatumu", "Tasmu"], "Sesuai kisi-kisi: punyamu, orang lain yang pakai = Namamu."],
+        ["LOGIKA KLASIK", "Berlari tapi tak berkaki — tebakannya apa?", "Air", ["Angin", "Awan", "Bayangan"], "Sesuai kisi-kisi: berlari tapi tak berkaki = Air."],
+        ["LOGIKA KLASIK", "Punya kota, tak ada rumahnya — tebakannya apa?", "Peta", ["Buku", "Koran", "Bola"], "Sesuai kisi-kisi: punya kota, tak ada rumahnya = Peta."],
+        ["LOGIKA KLASIK", "Banyak kunci, tak bisa buka pintu — tebakannya apa?", "Piano", ["Gitar", "Biola", "Drum"], "Sesuai kisi-kisi: banyak kunci, tak bisa buka pintu = Piano."],
+        ["LOGIKA KLASIK", "Bisa pecah tanpa disentuh — tebakannya apa?", "Janji", ["Gelas", "Balon", "Piring"], "Sesuai kisi-kisi: bisa pecah tanpa disentuh = Janji."],
+        ["LOGIKA HURUF & ANGKA", "Ada 3 apel, kamu ambil 2. Apelmu ada berapa?", "2", ["1", "3", "0"], "Sesuai kisi-kisi: ada 3 apel, kamu ambil 2. Apelmu ada = 2."],
+        ["LOGIKA HURUF & ANGKA", "Di tengah Jogja ada apa?", "Huruf G", ["Huruf J", "Huruf O", "Huruf A"], "Sesuai kisi-kisi: di tengah Jogja ada = Huruf G."],
+        ["LOGIKA HURUF & ANGKA", "Di tengah gunung ada apa?", "Huruf N", ["Huruf G", "Huruf U", "Huruf T"], "Sesuai kisi-kisi: di tengah gunung ada = Huruf N."],
+        ["LOGIKA HURUF & ANGKA", "Kata yang selalu salah di kamus — tebakannya apa?", "Kata 'salah'", ["Kata 'benar'", "Kata 'bisa'", "Kata 'ada'"], "Sesuai kisi-kisi: kata yang selalu salah di kamus = Kata 'salah'."],
+        ["LOGIKA HURUF & ANGKA", "Gelap, punya 1 korek; ada lilin, lampu, kompor. Dinyalakan duluan apa?", "Korek", ["Lilin", "Lampu", "Kompor"], "Sesuai kisi-kisi: dinyalakan duluan = Korek."],
+        ["LOGIKA HURUF & ANGKA", "Di ujung dunia ada apa?", "Huruf A", ["Huruf D", "Huruf N", "Huruf I"], "Sesuai kisi-kisi: di ujung dunia ada = Huruf A."],
+        ["LOGIKA HURUF & ANGKA", "3 pil diminum tiap 30 menit, habis dalam berapa lama?", "1 jam", ["30 menit", "1,5 jam", "2 jam"], "Sesuai kisi-kisi: 3 pil diminum tiap 30 menit, habis dalam = 1 jam."],
+        ["LOGIKA HURUF & ANGKA", "Menyalip juara 2 dalam lomba lari jadi juara berapa?", "Jadi juara 2", ["Juara 1", "Juara 3", "Juara 4"], "Sesuai kisi-kisi: menyalip juara 2 dalam lomba lari = Jadi juara 2."],
+        ["LOGIKA HURUF & ANGKA", "Di tengah api ada apa?", "Huruf P", ["Huruf A", "Huruf I", "Huruf K"], "Sesuai kisi-kisi: di tengah api ada = Huruf P."],
+
+        // IMG_0358 (15/20) - Tebakan Receh: Plesetan & Logika
+        ["PLESETAN", "Ular yang bisa dimainkan — tebakannya apa?", "Ular tangga", ["Ular piton", "Ular kobra", "Ular sawah"], "Sesuai kisi-kisi: ular yang bisa dimainkan = Ular tangga."],
+        ["PLESETAN", "Kuda yang bisa dimakan — tebakannya apa?", "Kudapan", ["Kuda poni", "Kuda laut", "Kuda nil"], "Sesuai kisi-kisi: kuda yang bisa dimakan = Kudapan."],
+        ["PLESETAN", "Kuda bisa menari — tebakannya apa?", "Kuda lumping", ["Kuda pacu", "Kuda zebra", "Kuda besi"], "Sesuai kisi-kisi: kuda bisa menari = Kuda lumping."],
+        ["LOGIKA KLASIK", "Kecoa masuk RS jadinya apa?", "Kecoalakaan", ["Kecelakaan", "Kecoasihan", "Kecoakan"], "Sesuai kisi-kisi: kecoa masuk RS = Kecoalakaan."],
+        ["LOGIKA KLASIK", "Kambing jadi tertuduh — tebakannya apa?", "Kambing hitam", ["Kambing putih", "Kambing gunung", "Kambing guling"], "Sesuai kisi-kisi: kambing jadi tertuduh = Kambing hitam."],
+        ["LOGIKA KLASIK", "5 burung ditembak 1, sisanya berapa?", "Sisa 0, terbang semua", ["4 burung", "5 burung", "1 burung"], "Sesuai kisi-kisi: 5 burung ditembak 1 = Sisa 0, terbang semua."],
+        ["LOGIKA KLASIK", "Hewan yang bersaudara — tebakannya apa?", "Katak beradik", ["Kodok sawah", "Kadal kebun", "Kura-kura"], "Sesuai kisi-kisi: hewan yang bersaudara = Katak beradik."],
+        ["LOGIKA KLASIK", "Ayam paling besar — tebakannya apa?", "Ayam semesta", ["Ayam kampung", "Ayam hutan", "Ayam kalkun"], "Sesuai kisi-kisi: ayam paling besar = Ayam semesta."],
+        ["LOGIKA KLASIK", "Di ujung langit ada apa?", "Huruf T", ["Huruf L", "Huruf A", "Huruf G"], "Sesuai kisi-kisi: di ujung langit ada = Huruf T."],
+        ["LOGIKA KLASIK", "Huruf paling kedinginan (tengah AC) — tebakannya apa?", "B (tengah AC)", ["A", "C", "D"], "Sesuai kisi-kisi: huruf paling kedinginan = B (tengah AC)."],
+        ["LOGIKA KLASIK", "Ayam berkokok merem tandanya apa?", "Sudah hafal teks", ["Ngantuk berat", "Kedinginan", "Kelaparan"], "Sesuai kisi-kisi: ayam berkokok merem = Sudah hafal teks."],
+        ["LOGIKA KLASIK", "Pintu didorong 10 orang tak terbuka, kenapa?", "Tulisan TARIK", ["Terkunci", "Macet", "Berat"], "Sesuai kisi-kisi: pintu didorong 10 orang tak terbuka = Tulisan TARIK."],
+        ["LOGIKA KLASIK", "Ayam bikin sebel — tebakannya apa?", "Ayam habis, sisa nasi", ["Ayam gosong", "Ayam mentah", "Ayam mahal"], "Sesuai kisi-kisi: ayam bikin sebel = Ayam habis, sisa nasi."],
+        ["LOGIKA KLASIK", "Bebek kakinya dua — tebakannya apa?", "Semua bebek", ["Bebek peking", "Bebek sawah", "Bebek air"], "Sesuai kisi-kisi: bebek kakinya dua = Semua bebek."],
+        ["LOGIKA KLASIK", "Masuk kering, keluar basah — tebakannya apa?", "Teh celup", ["Handuk", "Spons", "Sabun"], "Sesuai kisi-kisi: masuk kering, keluar basah = Teh celup."],
+        ["LOGIKA KLASIK", "Di tengah laut ada apa?", "Huruf U", ["Huruf L", "Huruf A", "Huruf T"], "Sesuai kisi-kisi: di tengah laut ada = Huruf U."],
+        ["LOGIKA KLASIK", "Punya gajah, hewan lain tak punya — tebakannya apa?", "Anak gajah", ["Belalai", "Gading", "Telinga"], "Sesuai kisi-kisi: punya gajah, hewan lain tak punya = Anak gajah."],
+        ["LOGIKA KLASIK", "Berenang rambut tak basah — tebakannya apa?", "Orang botak", ["Penyelam", "Perenang", "Anak kecil"], "Sesuai kisi-kisi: berenang rambut tak basah = Orang botak."],
+        ["LOGIKA KLASIK", "Lebih besar dari gajah, tak berbobot — tebakannya apa?", "Bayangannya", ["Awan", "Gunung", "Paus"], "Sesuai kisi-kisi: lebih besar dari gajah, tak berbobot = Bayangannya."],
+        ["LOGIKA KLASIK", "Kapas 1 kg vs besi 1 kg mana yang lebih berat?", "Sama berat", ["Besi 1 kg", "Kapas 1 kg", "Tergantung tempat"], "Sesuai kisi-kisi: kapas 1 kg vs besi 1 kg = Sama berat."],
+        ["LOGIKA KLASIK", "Ayam kakinya empat — tebakannya apa?", "Dua ekor ayam", ["Satu ayam mutan", "Anak ayam", "Induk ayam"], "Sesuai kisi-kisi: ayam kakinya empat = Dua ekor ayam."],
+        ["LOGIKA KLASIK", "Air paling berani — tebakannya apa?", "Air terjun", ["Air laut", "Air sungai", "Air danau"], "Sesuai kisi-kisi: air paling berani = Air terjun."],
+        ["LOGIKA KLASIK", "Tentara paling kecil — tebakannya apa?", "Tentara semut", ["Tentara mainan", "Tentara kadet", "Tentara bayaran"], "Sesuai kisi-kisi: tentara paling kecil = Tentara semut."],
+        ["LOGIKA KLASIK", "Pohon kelapa ditebang jadinya apa?", "Dicabut susah", ["Jatuh ke kiri", "Jatuh ke kanan", "Patah dua"], "Sesuai kisi-kisi: pohon kelapa ditebang = Dicabut susah."],
+        ["LOGIKA KLASIK", "Basah saat mengeringkan — tebakannya apa?", "Handuk", ["Kipas", "Tisu", "Spons"], "Sesuai kisi-kisi: basah saat mengeringkan = Handuk."],
+        ["LOGIKA KLASIK", "Punya leher, tak berkepala — tebakannya apa?", "Botol", ["Gelas", "Cangkir", "Ember"], "Sesuai kisi-kisi: punya leher, tak berkepala = Botol."],
+        ["LOGIKA KLASIK", "Hitam saat bersih, putih saat kotor — tebakannya apa?", "Papan tulis", ["Kertas", "Dinding", "Meja"], "Sesuai kisi-kisi: hitam saat bersih, putih saat kotor = Papan tulis."],
+
+        // IMG_0357 (14/20) - Tebakan Receh: Plesetan
+        ["PLESETAN", "Makanan yang tak pernah tahu apa-apa — tebakannya apa?", "Tahu", ["Tempe", "Tofu", "Lontong"], "Sesuai kisi-kisi: makanan yang tak pernah tahu apa-apa = Tahu."],
+        ["PLESETAN", "Hati yang bisa digoreng — tebakannya apa?", "Hati ayam", ["Hati nurani", "Hati sedih", "Hati senang"], "Sesuai kisi-kisi: hati yang bisa digoreng = Hati ayam."],
+        ["PLESETAN", "Sayur jago bela diri — tebakannya apa?", "Kangkung-fu", ["Bayam silat", "Sawi karate", "Wortel judo"], "Sesuai kisi-kisi: sayur jago bela diri = Kangkung-fu."],
+        ["PLESETAN", "Buah paling romantis — tebakannya apa?", "Buah hati", ["Buah mangga", "Buah apel", "Buah pir"], "Sesuai kisi-kisi: buah paling romantis = Buah hati."],
+        ["PLESETAN", "Rambut yang bisa dimakan — tebakannya apa?", "Rambutan", ["Kelapa", "Salak", "Durian"], "Sesuai kisi-kisi: rambut yang bisa dimakan = Rambutan."],
+        ["PLESETAN", "Buah punya jantung — tebakannya apa?", "Pisang", ["Pepaya", "Jambu", "Jeruk"], "Sesuai kisi-kisi: buah punya jantung = Pisang."],
+        ["PLESETAN", "Mata yang bisa digoreng — tebakannya apa?", "Mata sapi", ["Mata air", "Mata kaki", "Matahari"], "Sesuai kisi-kisi: mata yang bisa digoreng = Mata sapi."],
+        ["PLESETAN", "Sayur paling asam — tebakannya apa?", "Sayur asem", ["Sayur lodeh", "Sayur bayam", "Sayur sop"], "Sesuai kisi-kisi: sayur paling asam = Sayur asem."],
+        ["PLESETAN", "Kacang paling panjang — tebakannya apa?", "Kacang panjang", ["Kacang tanah", "Kacang hijau", "Kacang mete"], "Sesuai kisi-kisi: kacang paling panjang = Kacang panjang."],
+        ["PLESETAN", "Rumah paling mahal — tebakannya apa?", "Rumah sakit", ["Rumah makan", "Rumah susun", "Rumah kaca"], "Sesuai kisi-kisi: rumah paling mahal = Rumah sakit."],
+        ["PLESETAN", "Kota selalu sendirian — tebakannya apa?", "Solo", ["Bandung", "Medan", "Makassar"], "Sesuai kisi-kisi: kota selalu sendirian = Solo."],
+        ["PLESETAN", "Ibu dengan anak paling banyak — tebakannya apa?", "Ibu Pertiwi", ["Ibu kota", "Ibu guru", "Ibu tiri"], "Sesuai kisi-kisi: ibu dengan anak paling banyak = Ibu Pertiwi."],
+        ["PLESETAN", "Polisi paling ditakuti — tebakannya apa?", "Polisi tidur", ["Polisi lalu lintas", "Polisi hutan", "Polisi air"], "Sesuai kisi-kisi: polisi paling ditakuti = Polisi tidur."],
+        ["PLESETAN", "Bintang paling terkenal — tebakannya apa?", "Bintang film", ["Bintang jatuh", "Bintang laut", "Bintang utara"], "Sesuai kisi-kisi: bintang paling terkenal = Bintang film."],
+        ["PLESETAN", "Kaki yang jualan di pinggir jalan — tebakannya apa?", "Kaki lima", ["Kaki ayam", "Kaki meja", "Kaki gunung"], "Sesuai kisi-kisi: kaki yang jualan di pinggir jalan = Kaki lima."],
+        ["PLESETAN", "Nenek paling seram — tebakannya apa?", "Mak Lampir", ["Nenek sihir", "Nenek moyang", "Nenek tua"], "Sesuai kisi-kisi: nenek paling seram = Mak Lampir."],
+        ["PLESETAN", "Hari paling ditunggu — tebakannya apa?", "Hari gajian", ["Hari libur", "Hari senin", "Hari jumat"], "Sesuai kisi-kisi: hari paling ditunggu = Hari gajian."],
+        ["PLESETAN", "Hari paling sepi — tebakannya apa?", "Hari Nyepi", ["Hari Minggu", "Hari Senin", "Hari Rabu"], "Sesuai kisi-kisi: hari paling sepi = Hari Nyepi."],
+        ["PLESETAN", "Anak yang diinjak tiap hari — tebakannya apa?", "Anak tangga", ["Anak sekolah", "Anak jalanan", "Anak sulung"], "Sesuai kisi-kisi: anak yang diinjak tiap hari = Anak tangga."],
+        ["PLESETAN", "Tangga bisa didengar — tebakannya apa?", "Tangga nada", ["Tangga rumah", "Tangga lipat", "Tangga darurat"], "Sesuai kisi-kisi: tangga bisa didengar = Tangga nada."],
+        ["PLESETAN", "Jam paling ngeselin — tebakannya apa?", "Jam karet", ["Jam dinding", "Jam tangan", "Jam pasir"], "Sesuai kisi-kisi: jam paling ngeselin = Jam karet."],
+        ["PLESETAN", "Ibu paling besar — tebakannya apa?", "Ibu kota", ["Ibu jari", "Ibu angkat", "Ibu peri"], "Sesuai kisi-kisi: ibu paling besar = Ibu kota."],
+        ["PLESETAN", "Gunung paling muda — tebakannya apa?", "Anak Krakatau", ["Gunung Merapi", "Gunung Semeru", "Gunung Rinjani"], "Sesuai kisi-kisi: gunung paling muda = Anak Krakatau."],
+        ["PLESETAN", "Bola tak bisa ditendang — tebakannya apa?", "Bola mata", ["Bola basket", "Bola voli", "Bola kaki"], "Sesuai kisi-kisi: bola tak bisa ditendang = Bola mata."],
+        ["PLESETAN", "Hewan paling sederhana — tebakannya apa?", "Ala kadal-nya", ["Bunglon", "Cicak", "Tokek"], "Sesuai kisi-kisi: hewan paling sederhana = Ala kadal-nya."],
+        ["PLESETAN", "Mobil paling kecil — tebakannya apa?", "Mobil-mobilan", ["Mobil sedan", "Mobil sport", "Mobil box"], "Sesuai kisi-kisi: mobil paling kecil = Mobil-mobilan."],
+        ["PLESETAN", "Ayam tak bisa bertelur — tebakannya apa?", "Ayam jantan", ["Ayam betina", "Ayam kampung", "Ayam broiler"], "Sesuai kisi-kisi: ayam tak bisa bertelur = Ayam jantan."],
+        ["PLESETAN", "Pesawat tak bisa terbang — tebakannya apa?", "Pesawat TV", ["Pesawat jet", "Pesawat tempur", "Pesawat komersial"], "Sesuai kisi-kisi: pesawat tak bisa terbang = Pesawat TV."],
+        ["PLESETAN", "Bunga yang bisa meledak — tebakannya apa?", "Kembang api", ["Bunga mawar", "Bunga melati", "Bunga anggrek"], "Sesuai kisi-kisi: bunga yang bisa meledak = Kembang api."],
+
+        // IMG_0356 (13/20) - Tebakan Receh: Plesetan
+        ["PLESETAN", "Gajah belalai pendek — tebakannya apa?", "Gajah pesek", ["Gajah sumatera", "Gajah afrika", "Gajah putih"], "Sesuai kisi-kisi: gajah belalai pendek = Gajah pesek."],
+        ["PLESETAN", "Sabun yang genit — tebakannya apa?", "Sabun colek", ["Sabun mandi", "Sabun cuci", "Sabun cair"], "Sesuai kisi-kisi: sabun yang genit = Sabun colek."],
+        ["PLESETAN", "Buah yang durhaka — tebakannya apa?", "Melon kundang", ["Semangka", "Pepaya", "Alpukat"], "Sesuai kisi-kisi: buah yang durhaka = Melon kundang."],
+        ["PLESETAN", "Pocong disukai ibu-ibu — tebakannya apa?", "Pocongan harga", ["Pocong merah", "Pocong hijau", "Pocong putih"], "Sesuai kisi-kisi: pocong disukai ibu-ibu = Pocongan harga."],
+        ["PLESETAN", "Buah paling kaya — tebakannya apa?", "Srikaya", ["Kelengkeng", "Rambutan", "Manggis"], "Sesuai kisi-kisi: buah paling kaya = Srikaya."],
+        ["PLESETAN", "Sayur yang bisa nyanyi — tebakannya apa?", "Kolplay", ["Brokoli", "Selada", "Seledri"], "Sesuai kisi-kisi: sayur yang bisa nyanyi = Kolplay."],
+        ["PLESETAN", "Belut paling berbahaya — tebakannya apa?", "Belutang", ["Belut sawah", "Belut listrik", "Belut laut"], "Sesuai kisi-kisi: belut paling berbahaya = Belutang."],
+        ["PLESETAN", "Monyet menyebalkan — tebakannya apa?", "Monyetel radio", ["Monyet ekor panjang", "Monyet salju", "Monyet hutan"], "Sesuai kisi-kisi: monyet menyebalkan = Monyetel radio."],
+        ["PLESETAN", "Ikan matanya banyak — tebakannya apa?", "Ikan teri", ["Ikan lele", "Ikan patin", "Ikan mas"], "Sesuai kisi-kisi: ikan matanya banyak = Ikan teri."],
+        ["PLESETAN", "Hewan namanya 2 huruf — tebakannya apa?", "U-dang", ["I-kan", "R-usa", "S-api"], "Sesuai kisi-kisi: hewan namanya 2 huruf = U-dang."],
+        ["PLESETAN", "Lemari muat di saku — tebakannya apa?", "Lemaribu", ["Lemari besi", "Lemari kayu", "Lemari kaca"], "Sesuai kisi-kisi: lemari muat di saku = Lemaribu."],
+        ["PLESETAN", "Beruang paling kaya — tebakannya apa?", "Ber-uang", ["Beruang madu", "Beruang kutub", "Beruang coklat"], "Sesuai kisi-kisi: beruang paling kaya = Ber-uang."],
+        ["PLESETAN", "Ikan bisa berhenti — tebakannya apa?", "Ikan paus (pause)", ["Ikan hiu", "Ikan pari", "Ikan salmon"], "Sesuai kisi-kisi: ikan bisa berhenti = Ikan paus (pause)."],
+        ["PLESETAN", "Piring yang bisa terbang — tebakannya apa?", "Piring terbang", ["Piring keramik", "Piring kaca", "Piring plastik"], "Sesuai kisi-kisi: piring yang bisa terbang = Piring terbang."],
+        ["PLESETAN", "Tikus kakinya dua — tebakannya apa?", "Mickey Mouse", ["Tikus got", "Tikus sawah", "Tikus putih"], "Sesuai kisi-kisi: tikus kakinya dua = Mickey Mouse."],
+        ["PLESETAN", "Singa yang bisa dimakan — tebakannya apa?", "Singkong", ["Singa laut", "Singa gunung", "Singa jantan"], "Sesuai kisi-kisi: singa yang bisa dimakan = Singkong."],
+        ["PLESETAN", "Jam yang bisa dimakan — tebakannya apa?", "Jambu", ["Jam dinding", "Jam tangan", "Jam weker"], "Sesuai kisi-kisi: jam yang bisa dimakan = Jambu."],
+        ["PLESETAN", "Nasi tak pernah basi — tebakannya apa?", "Nasihat", ["Nasi uduk", "Nasi kuning", "Nasi liwet"], "Sesuai kisi-kisi: nasi tak pernah basi = Nasihat."],
+        ["PLESETAN", "Ikan paling asin — tebakannya apa?", "Ikan asin", ["Ikan tuna", "Ikan kakap", "Ikan nila"], "Sesuai kisi-kisi: ikan paling asin = Ikan asin."],
+        ["PLESETAN", "Nasi paling sedih — tebakannya apa?", "Sudah jadi bubur", ["Nasi putih", "Nasi hangat", "Nasi goreng"], "Sesuai kisi-kisi: nasi paling sedih = Sudah jadi bubur."],
+        ["PLESETAN", "Teh paling besar — tebakannya apa?", "Teh-rong (terong)", ["Teh hijau", "Teh hitam", "Teh manis"], "Sesuai kisi-kisi: teh paling besar = Teh-rong (terong)."],
+        ["PLESETAN", "Tepung paling malas — tebakannya apa?", "Tepung tapioka", ["Tepung terigu", "Tepung beras", "Tepung jagung"], "Sesuai kisi-kisi: tepung paling malas = Tepung tapioka."],
+        ["PLESETAN", "Mie paling pedas — tebakannya apa?", "Mie setan", ["Mie kuah", "Mie goreng", "Mie ayam"], "Sesuai kisi-kisi: mie paling pedas = Mie setan."],
+        ["PLESETAN", "Ayam paling pedas — tebakannya apa?", "Ayam geprek", ["Ayam rebus", "Ayam kukus", "Ayam ungkep"], "Sesuai kisi-kisi: ayam paling pedas = Ayam geprek."],
+        ["PLESETAN", "Bakso paling besar — tebakannya apa?", "Bakso beranak", ["Bakso urat", "Bakso ikan", "Bakso tahu"], "Sesuai kisi-kisi: bakso paling besar = Bakso beranak."],
+        ["PLESETAN", "Susu paling asam — tebakannya apa?", "Susu basi", ["Susu segar", "Susu kental", "Susu almond"], "Sesuai kisi-kisi: susu paling asam = Susu basi."],
+        ["PLESETAN", "Roti yang bisa menggigit — tebakannya apa?", "Roti buaya", ["Roti tawar", "Roti manis", "Roti gandum"], "Sesuai kisi-kisi: roti yang bisa menggigit = Roti buaya."],
+
+        // IMG_0354 (11/20) - Tumbuhan & Hewan + Sejarah & Lambang Negara
+        ["HEWAN • JULUKAN & REKOR", "Mamalia terbesar di dunia — tebakannya apa?", "Paus biru", ["Gajah afrika", "Jerapah", "Kuda nil"], "Sesuai kisi-kisi: mamalia terbesar = Paus biru."],
+        ["HEWAN • JULUKAN & REKOR", "Burung terbesar — tebakannya apa?", "Burung unta", ["Elang", "Kasuari", "Pelikan"], "Sesuai kisi-kisi: burung terbesar = Burung unta."],
+        ["HEWAN • CIRI & KELOMPOK", "Hewan yang melakukan tidur musim dingin — tebakannya apa?", "Beruang", ["Kucing", "Ayam", "Kambing"], "Sesuai kisi-kisi: tidur musim dingin = Beruang."],
+        ["HEWAN • CIRI & KELOMPOK", "Proses penguapan air disebut apa?", "Evaporasi", ["Kondensasi", "Presipitasi", "Filtrasi"], "Sesuai kisi-kisi: penguapan air = Evaporasi."],
+        ["HEWAN • CIRI & KELOMPOK", "Kelompok hewan pemakan daging disebut apa?", "Karnivora", ["Herbivora", "Omnivora", "Insektivora"], "Sesuai kisi-kisi: pemakan daging = Karnivora."],
+        ["HEWAN • CIRI & KELOMPOK", "Bayi katak disebut apa?", "Berudu", ["Anak ayam", "Anak ikan", "Anak sapi"], "Sesuai kisi-kisi: bayi katak = Berudu."],
+        ["HEWAN • CIRI & KELOMPOK", "Kelompok hewan pemakan segala disebut apa?", "Omnivora", ["Karnivora", "Herbivora", "Frugivora"], "Sesuai kisi-kisi: pemakan segala = Omnivora."],
+        ["HEWAN • CIRI & KELOMPOK", "Jumlah kaki serangga ada berapa?", "6", ["8", "4", "10"], "Sesuai kisi-kisi: jumlah kaki serangga = 6."],
+        ["HEWAN • CIRI & KELOMPOK", "Hewan yang bernapas memakai insang — tebakannya apa?", "Ikan", ["Katak", "Ular", "Burung"], "Sesuai kisi-kisi: bernapas pakai insang = Ikan."],
+        ["HEWAN • CIRI & KELOMPOK", "Kelompok hewan pemakan tumbuhan disebut apa?", "Herbivora", ["Karnivora", "Omnivora", "Detritivor"], "Sesuai kisi-kisi: pemakan tumbuhan = Herbivora."],
+        ["HEWAN • CIRI & KELOMPOK", "Jumlah kaki laba-laba ada berapa?", "8", ["6", "4", "12"], "Sesuai kisi-kisi: jumlah kaki laba-laba = 8."],
+        ["HEWAN • CIRI & KELOMPOK", "Tempat hidup ikan — tebakannya apa?", "Air", ["Darat", "Udara", "Pohon"], "Sesuai kisi-kisi: tempat hidup ikan = Air."],
+        ["HEWAN • CIRI & KELOMPOK", "Perubahan ulat jadi kupu-kupu disebut apa?", "Metamorfosis", ["Fotosintesis", "Reproduksi", "Adaptasi"], "Sesuai kisi-kisi: ulat jadi kupu-kupu = Metamorfosis."],
+        ["HEWAN • CIRI & KELOMPOK", "Kelompok singa disebut apa?", "Pride", ["Kawanan", "Koloni", "Gerombolan"], "Sesuai kisi-kisi: kelompok singa = Pride."],
+        ["SEJARAH & LAMBANG NEGARA", "Dasar negara Indonesia adalah...", "Pancasila", ["UUD 1945", "Bhinneka Tunggal Ika", "Garuda Pancasila"], "Sesuai kisi-kisi: dasar negara = Pancasila."],
+        ["SEJARAH & LAMBANG NEGARA", "Raja Majapahit yang terkenal adalah...", "Hayam Wuruk", ["Kertarajasa", "Jayanegara", "Tribhuwana"], "Sesuai kisi-kisi: Raja Majapahit = Hayam Wuruk."],
+        ["SEJARAH & LAMBANG NEGARA", "Semboyan negara Indonesia adalah...", "Bhinneka Tunggal Ika", ["Tut Wuri Handayani", "Merdeka Atau Mati", "Satu Nusa Satu Bangsa"], "Sesuai kisi-kisi: semboyan negara = Bhinneka Tunggal Ika."],
+        ["SEJARAH & LAMBANG NEGARA", "Hari Kemerdekaan Indonesia diperingati setiap...", "17 Agustus 1945", ["1 Juni 1945", "10 November 1945", "28 Oktober 1928"], "Sesuai kisi-kisi: Hari Kemerdekaan = 17 Agustus 1945."],
+        ["SEJARAH & LAMBANG NEGARA", "Presiden kedua Republik Indonesia adalah...", "Soeharto", ["Soekarno", "B.J. Habibie", "Abdurrahman Wahid"], "Sesuai kisi-kisi: Presiden kedua = Soeharto."],
+        ["SEJARAH & LAMBANG NEGARA", "Lambang negara Indonesia adalah...", "Garuda Pancasila", ["Burung Hantu", "Elang Jawa", "Rajawali"], "Sesuai kisi-kisi: lambang negara = Garuda Pancasila."],
+        ["SEJARAH & LAMBANG NEGARA", "Bahasa persatuan Indonesia adalah...", "Bahasa Indonesia", ["Bahasa Jawa", "Bahasa Melayu", "Bahasa Sunda"], "Sesuai kisi-kisi: bahasa persatuan = Bahasa Indonesia."],
+        ["SEJARAH & LAMBANG NEGARA", "Hari Pahlawan diperingati setiap...", "10 November", ["17 Agustus", "20 Mei", "2 Mei"], "Sesuai kisi-kisi: Hari Pahlawan = 10 November."],
+        ["SEJARAH & LAMBANG NEGARA", "Bunyi sila ke-3 Pancasila adalah...", "Persatuan Indonesia", ["Keadilan sosial bagi seluruh rakyat Indonesia", "Ketuhanan Yang Maha Esa", "Kemanusiaan yang adil dan beradab"], "Sesuai kisi-kisi: sila ke-3 = Persatuan Indonesia."],
+        ["SEJARAH & LAMBANG NEGARA", "Tokoh yang mengucapkan Sumpah Palapa adalah...", "Gajah Mada", ["Hayam Wuruk", "Patih Nambi", "Raden Wijaya"], "Sesuai kisi-kisi: Sumpah Palapa = Gajah Mada."],
+        ["SEJARAH & LAMBANG NEGARA", "Hari Pendidikan Nasional diperingati setiap...", "2 Mei", ["20 Mei", "10 November", "17 Agustus"], "Sesuai kisi-kisi: Hari Pendidikan Nasional = 2 Mei."],
+        ["SEJARAH & LAMBANG NEGARA", "Pencipta lagu kebangsaan Indonesia Raya adalah...", "W.R. Supratman", ["Ismail Marzuki", "C. Simanjuntak", "Ibu Sud"], "Sesuai kisi-kisi: pencipta lagu kebangsaan = W.R. Supratman."],
+
+        // IMG_0355 (12/20) - Indonesia & Umum + Olahraga & Mata Uang + Plesetan Klasik
+        ["SEJARAH & LAMBANG NEGARA", "Proklamator Kemerdekaan Indonesia adalah...", "Soekarno & Hatta", ["Soekarno & Sjahrir", "Hatta & Tan Malaka", "Soekarno & Sudirman"], "Sesuai kisi-kisi: Proklamator = Soekarno & Hatta."],
+        ["SEJARAH & LAMBANG NEGARA", "Presiden pertama Republik Indonesia adalah...", "Soekarno", ["Soeharto", "Mohammad Hatta", "B.J. Habibie"], "Sesuai kisi-kisi: Presiden pertama = Soekarno."],
+        ["SEJARAH & LAMBANG NEGARA", "Lagu kebangsaan Indonesia adalah...", "Indonesia Raya", ["Garuda Pancasila", "Bagimu Negeri", "Tanah Airku"], "Sesuai kisi-kisi: lagu kebangsaan = Indonesia Raya."],
+        ["ALAM & BUDAYA NUSANTARA", "Hewan khas Indonesia yang terkenal adalah...", "Komodo", ["Kanguru", "Panda", "Koala"], "Sesuai kisi-kisi: hewan khas = Komodo."],
+        ["ALAM & BUDAYA NUSANTARA", "Gunung tertinggi di Indonesia adalah...", "Puncak Jaya", ["Gunung Kerinci", "Gunung Rinjani", "Gunung Semeru"], "Sesuai kisi-kisi: gunung tertinggi = Puncak Jaya."],
+        ["ALAM & BUDAYA NUSANTARA", "Tari Saman berasal dari daerah mana?", "Aceh", ["Bali", "Sumatera Barat", "Jawa Timur"], "Sesuai kisi-kisi: Tari Saman = Aceh."],
+        ["ALAM & BUDAYA NUSANTARA", "Rumah adat Minang disebut apa?", "Rumah Gadang", ["Tongkonan", "Joglo", "Honai"], "Sesuai kisi-kisi: rumah adat Minang = Rumah Gadang."],
+        ["ALAM & BUDAYA NUSANTARA", "Candi Buddha terbesar di Indonesia adalah...", "Borobudur", ["Prambanan", "Mendut", "Sewu"], "Sesuai kisi-kisi: Candi Buddha = Borobudur."],
+        ["ALAM & BUDAYA NUSANTARA", "Senjata tradisional Indonesia yang terkenal adalah...", "Keris", ["Rencong", "Mandau", "Celurit"], "Sesuai kisi-kisi: senjata tradisional = Keris."],
+        ["ALAM & BUDAYA NUSANTARA", "Rumah adat Toraja disebut apa?", "Tongkonan", ["Rumah Gadang", "Lamin", "Bolon"], "Sesuai kisi-kisi: rumah adat Toraja = Tongkonan."],
+        ["ALAM & BUDAYA NUSANTARA", "Pulau terbesar di Indonesia (sesuai kisi-kisi) adalah...", "Kalimantan / Papua", ["Sumatera", "Sulawesi", "Jawa"], "Sesuai kisi-kisi: pulau terbesar = Kalimantan / Papua."],
+        ["ALAM & BUDAYA NUSANTARA", "Bunga nasional Indonesia adalah...", "Melati", ["Anggrek", "Mawar", "Raflesia"], "Sesuai kisi-kisi: bunga nasional = Melati."],
+        ["ALAM & BUDAYA NUSANTARA", "Danau terbesar di Indonesia adalah...", "Danau Toba", ["Danau Singkarak", "Danau Maninjau", "Danau Poso"], "Sesuai kisi-kisi: danau terbesar = Toba."],
+        ["ALAM & BUDAYA NUSANTARA", "Candi Hindu terbesar di Indonesia adalah...", "Prambanan", ["Borobudur", "Kalasan", "Sari"], "Sesuai kisi-kisi: Candi Hindu = Prambanan."],
+        ["OLAHRAGA & MATA UANG", "Jumlah pemain bola basket dalam 1 tim adalah...", "5 orang", ["6 orang", "11 orang", "7 orang"], "Sesuai kisi-kisi: bola basket 1 tim = 5 orang."],
+        ["OLAHRAGA & MATA UANG", "Mata uang Jepang adalah...", "Yen", ["Won", "Yuan", "Baht"], "Sesuai kisi-kisi: mata uang Jepang = Yen."],
+        ["OLAHRAGA & MATA UANG", "Olimpiade diadakan setiap berapa tahun sekali?", "4 tahun sekali", ["2 tahun sekali", "1 tahun sekali", "5 tahun sekali"], "Sesuai kisi-kisi: Olimpiade = 4 tahun sekali."],
+        ["OLAHRAGA & MATA UANG", "Jumlah pemain sepak bola dalam 1 tim adalah...", "11 orang", ["5 orang", "6 orang", "8 orang"], "Sesuai kisi-kisi: sepak bola 1 tim = 11 orang."],
+        ["OLAHRAGA & MATA UANG", "Piala Dunia diadakan setiap berapa tahun sekali?", "4 tahun sekali", ["2 tahun sekali", "3 tahun sekali", "6 tahun sekali"], "Sesuai kisi-kisi: Piala Dunia = 4 tahun sekali."],
+        ["OLAHRAGA & MATA UANG", "Jarak lari maraton sesuai kisi-kisi adalah...", "42 km", ["10 km", "21 km", "5 km"], "Sesuai kisi-kisi: maraton = 42 km."],
+        ["OLAHRAGA & MATA UANG", "Jumlah pemain bola voli dalam 1 tim adalah...", "6 orang", ["5 orang", "11 orang", "7 orang"], "Sesuai kisi-kisi: bola voli 1 tim = 6 orang."],
+        ["OLAHRAGA & MATA UANG", "Mata uang Korea Selatan adalah...", "Won", ["Yen", "Peso", "Ringgit"], "Sesuai kisi-kisi: mata uang Korea = Won."],
+        ["PLESETAN", "Gula yang bukan gula — tebakannya apa?", "Gula aren", ["Gula pasir", "Gula batu", "Gula merah"], "Sesuai kisi-kisi: gula yang bukan gula = Gula aren."],
+        ["PLESETAN", "Buah pakai mahkota — tebakannya apa?", "Nanas", ["Semangka", "Durian", "Belimbing"], "Sesuai kisi-kisi: buah pakai mahkota = Nanas."],
+        ["PLESETAN", "Sapi yang bisa nulis — tebakannya apa?", "Sapidol", ["Sapi perah", "Sapi potong", "Sapi bali"], "Sesuai kisi-kisi: sapi yang bisa nulis = Sapidol."],
+        ["PLESETAN", "Bis yang bisa dimakan — tebakannya apa?", "Biskuit", ["Bis kota", "Bis tingkat", "Bis wisata"], "Sesuai kisi-kisi: bis yang bisa dimakan = Biskuit."],
+        ["PLESETAN", "Gajah yang baik hati — tebakannya apa?", "Gajahat", ["Gajah jinak", "Gajah putih", "Gajah besar"], "Sesuai kisi-kisi: gajah yang baik hati = Gajahat."],
+
+        // IMG_0353 (10/20) - Jingle Iklan Shopee (TV Show 12.12) + Tumbuhan & Hewan
+        ["JINGLE & EVENT SHOPEE", "Siapa pengisi acara Panggung TV Show 12.12 tahun 2019 sesuai kisi-kisi?", "Didi Kempot dkk.", ["Stray Kids & GOT7", "BLACKPINK", "EXO"], "Sesuai kisi-kisi TV Show 12.12: 2019 = Didi Kempot dkk."],
+        ["JINGLE & EVENT SHOPEE", "Siapa pengisi acara Panggung TV Show 12.12 tahun 2020 sesuai kisi-kisi?", "Stray Kids & GOT7", ["Didi Kempot dkk.", "TWICE", "SEVENTEEN"], "Sesuai kisi-kisi TV Show 12.12: 2020 = Stray Kids & GOT7."],
+        ["TUMBUHAN • JENIS KHAS", "Contoh umbi sesuai kisi-kisi adalah...", "Kentang", ["Wortel", "Singkong", "Ubi jalar"], "Sesuai kisi-kisi: contoh umbi = Kentang."],
+        ["TUMBUHAN • JENIS KHAS", "Tumbuhan dengan akar napas di rawa — tebakannya apa?", "Bakau", ["Jati", "Pinus", "Cemara"], "Sesuai kisi-kisi: akar napas di rawa = Bakau."],
+        ["TUMBUHAN • JENIS KHAS", "Tumbuhan pemakan serangga — tebakannya apa?", "Kantong semar", ["Kaktus", "Pakis", "Lumut"], "Sesuai kisi-kisi: pemakan serangga = Kantong semar."],
+        ["TUMBUHAN • JENIS KHAS", "Bunga terbesar — tebakannya apa?", "Rafflesia", ["Melati", "Mawar", "Anggrek"], "Sesuai kisi-kisi: bunga terbesar = Rafflesia."],
+        ["TUMBUHAN • JENIS KHAS", "Proses tumbuhan membuat makanan sendiri disebut apa?", "Fotosintesis", ["Respirasi", "Transpirasi", "Fermentasi"], "Sesuai kisi-kisi: proses membuat makanan = Fotosintesis."],
+        ["TUMBUHAN • JENIS KHAS", "Daun yang bisa bertunas — tebakannya apa?", "Cocor bebek", ["Daun salam", "Daun pandan", "Daun sirih"], "Sesuai kisi-kisi: daun bisa bertunas = Cocor bebek."],
+        ["TUMBUHAN • JENIS KHAS", "Tumbuhan yang hidup di gurun — tebakannya apa?", "Kaktus", ["Teratai", "Eceng gondok", "Bakau"], "Sesuai kisi-kisi: hidup di gurun = Kaktus."],
+        ["TUMBUHAN • BAGIAN & FUNGSI", "Tumbuhan bernapas lewat apa?", "Stomata (mulut daun)", ["Akar", "Batang", "Bunga"], "Sesuai kisi-kisi: bernapas lewat = Stomata (mulut daun)."],
+        ["TUMBUHAN • BAGIAN & FUNGSI", "Gas yang diserap untuk fotosintesis adalah...", "Karbon dioksida", ["Oksigen", "Nitrogen", "Hidrogen"], "Sesuai kisi-kisi: gas untuk fotosintesis = Karbon dioksida."],
+        ["TUMBUHAN • BAGIAN & FUNGSI", "Kelamin betina pada bunga disebut apa?", "Putik", ["Benang sari", "Kelopak", "Mahkota"], "Sesuai kisi-kisi: kelamin betina bunga = Putik."],
+        ["TUMBUHAN • BAGIAN & FUNGSI", "Kelamin jantan pada bunga disebut apa?", "Benang sari", ["Putik", "Tangkai", "Bakal buah"], "Sesuai kisi-kisi: kelamin jantan bunga = Benang sari."],
+        ["TUMBUHAN • BAGIAN & FUNGSI", "Bagian tumbuhan yang menyerap air adalah...", "Akar", ["Daun", "Buah", "Biji"], "Sesuai kisi-kisi: menyerap air = Akar."],
+        ["TUMBUHAN • BAGIAN & FUNGSI", "Tempat utama berlangsungnya fotosintesis adalah...", "Daun", ["Akar", "Bunga", "Biji"], "Sesuai kisi-kisi: tempat fotosintesis = Daun."],
+        ["TUMBUHAN • BAGIAN & FUNGSI", "Hasil utama fotosintesis adalah...", "Oksigen", ["Karbon monoksida", "Uap panas", "Minyak"], "Sesuai kisi-kisi: hasil fotosintesis = Oksigen."],
+        ["TUMBUHAN • BAGIAN & FUNGSI", "Zat hijau daun disebut apa?", "Klorofil", ["Nektar", "Getah", "Kambium"], "Sesuai kisi-kisi: zat hijau daun = Klorofil."],
+        ["HEWAN • JULUKAN & REKOR", "Hewan berkantung — tebakannya apa?", "Kanguru", ["Beruang", "Rusa", "Zebra"], "Sesuai kisi-kisi: hewan berkantung = Kanguru."],
+        ["HEWAN • JULUKAN & REKOR", "Hewan yang dijuluki 'Kapal gurun' — tebakannya apa?", "Unta", ["Kuda", "Keledai", "Banteng"], "Sesuai kisi-kisi: 'Kapal gurun' = Unta."],
+        ["HEWAN • JULUKAN & REKOR", "Mamalia yang bisa terbang — tebakannya apa?", "Kelelawar", ["Burung hantu", "Albatros", "Merpati"], "Sesuai kisi-kisi: mamalia bisa terbang = Kelelawar."],
+        ["HEWAN • JULUKAN & REKOR", "Mamalia yang bertelur — tebakannya apa?", "Platipus", ["Lumba-lumba", "Paus", "Sapi"], "Sesuai kisi-kisi: mamalia bertelur = Platipus."],
+        ["HEWAN • JULUKAN & REKOR", "Hewan darat terbesar — tebakannya apa?", "Gajah Afrika", ["Badak", "Jerapah", "Kerbau"], "Sesuai kisi-kisi: hewan darat terbesar = Gajah Afrika."],
+        ["HEWAN • JULUKAN & REKOR", "Hewan yang bisa berubah warna — tebakannya apa?", "Bunglon", ["Iguana", "Buaya", "Penyu"], "Sesuai kisi-kisi: bisa berubah warna = Bunglon."],
+        ["HEWAN • JULUKAN & REKOR", "Hewan tercepat di darat — tebakannya apa?", "Cheetah", ["Kijang", "Singa", "Kuda"], "Sesuai kisi-kisi: tercepat di darat = Cheetah."],
+        ["HEWAN • JULUKAN & REKOR", "Burung tak bisa terbang — tebakannya apa?", "Penguin", ["Bangau", "Camar", " Gagak"], "Sesuai kisi-kisi: burung tak bisa terbang = Penguin."],
+        ["HEWAN • JULUKAN & REKOR", "Hewan yang dijuluki 'Raja hutan' — tebakannya apa?", "Singa", ["Harimau", "Macan tutul", "Serigala"], "Sesuai kisi-kisi: 'Raja hutan' = Singa."],
+        ["HEWAN • JULUKAN & REKOR", "Hewan tertinggi / leher terpanjang — tebakannya apa?", "Jerapah", ["Unta", "Gajah", "Flamingo"], "Sesuai kisi-kisi: tertinggi / leher terpanjang = Jerapah."]
+      ];
+
+      const bank = [];
+      const uniquePromptKeys = new Set();
+      const uniqueAnswerKeys = new Set();
+
+      for (const [cat, prompt, ans, dist, exp] of rawItems) {
+        const cleanP = stripHash(prompt);
+        const pKey = cleanP.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+        const aKey = stripHash(ans).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+        // Pastikan tidak ada pertanyaan duplicate maupun jawaban kembar yang sama persis
+        if (!cleanP || uniquePromptKeys.has(pKey) || uniqueAnswerKeys.has(aKey)) continue;
+        uniquePromptKeys.add(pKey);
+        uniqueAnswerKeys.add(aKey);
+        bank.push(buildQuestionObj(cat, cleanP, ans, dist, exp));
+      }
+
+      return bank;
+    }
+
+    const THOUSAND_BANK = buildThousandFunnyBank();
+
+    function pickUniqueQuestionsForSession() {
+      // Hanya reset riwayat jika seluruh bank soal unik di gambar sudah habis terpakai
+      if (seenQuestionKeys.size + TOTAL_QUESTIONS > THOUSAND_BANK.length) {
+        seenQuestionKeys.clear();
+      }
+
+      const freshPool = shuffle(
+        THOUSAND_BANK.filter((q) => !seenQuestionKeys.has(q.prompt))
+      );
+
+      const sessionQuestions = [];
+      const sessionPromptSet = new Set();
+      const sessionAnswerSet = new Set();
+
+      for (const q of freshPool) {
+        if (sessionQuestions.length >= TOTAL_QUESTIONS) break;
+        const pKey = q.prompt.toLowerCase();
+        const aKey = q.answer.toLowerCase();
+        if (sessionPromptSet.has(pKey) || sessionAnswerSet.has(aKey)) continue;
+
+        sessionPromptSet.add(pKey);
+        sessionAnswerSet.add(aKey);
+        sessionQuestions.push(q);
+        seenQuestionKeys.add(q.prompt);
+      }
+
+      return sessionQuestions;
+    }
+
+    function renderSteps() {
+      elStepBars.innerHTML = "";
+      for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const div = document.createElement("div");
+        div.className = "step";
+        if (i < currentIndex) {
+          div.classList.add(questions[i]._isCorrect ? "done-ok" : "done-bad");
+        } else if (i === currentIndex) {
+          div.classList.add("current");
+        }
+        elStepBars.appendChild(div);
+      }
+    }
+
+    function updateStatsUI() {
+      elPlayerCount.textContent = formatNum(playersAlive);
+      elPotentialCoins.textContent = formatNum(potentialCoins) + " 🪙";
+    }
+
+    function clearTimers() {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+      if (advanceId) {
+        clearTimeout(advanceId);
+        advanceId = null;
+      }
+    }
+
+    function startQuiz() {
+      clearTimers();
+      questions = pickUniqueQuestionsForSession();
+      currentIndex = 0;
+      correctCount = 0;
+      potentialCoins = 0;
+      playersAlive = randInt(48000, 75000);
+
+      elLobby.classList.add("hidden");
+      elResult.classList.add("hidden");
+      elQuiz.classList.remove("hidden");
+
+      updateStatsUI();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      clearTimers();
+      answeredCurrent = false;
+      selectedChoiceText = null;
+      timeLeft = QUESTION_SECONDS;
+
+      const q = questions[currentIndex];
+      const toastEl = document.getElementById("coinGainToast");
+      const ruleEl = document.getElementById("activeRuleStrip");
+      const statusTitleEl = document.getElementById("statusTitle");
+      const statusSubEl = document.getElementById("statusSub");
+
+      if (toastEl) toastEl.classList.remove("show");
+      if (ruleEl) ruleEl.textContent = "🔒 Klik 1 jawaban — langsung digembok permanen!";
+      if (statusTitleEl) statusTitleEl.textContent = "◎ Mode Aktif • Sudden Death";
+      if (statusSubEl) statusSubEl.innerHTML = `Benar dapat <b>+${formatNum(COIN_PER_CORRECT)} Koin</b> potensi`;
+
+      elQCounter.textContent = `Soal ${currentIndex + 1}/${TOTAL_QUESTIONS}`;
+      elCategory.textContent = q.category;
+      elQText.textContent = q.prompt;
+      elFeedbackBar.className = "feedback-bar";
+      elFeedbackBar.textContent = "";
+
+      elTimerBadge.textContent = `${timeLeft}`;
+      elTimerBadge.classList.remove("urgent");
+      renderSteps();
+
+      elOptionsBox.innerHTML = "";
+      const letters = ["A", "B", "C", "D"];
+      q.choices.forEach((choiceText, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "opt-btn";
+        btn.dataset.choice = choiceText;
+        btn.innerHTML = `
+          <span class="opt-left">
+            <span class="opt-letter">${letters[idx]}</span>
+            <span>${choiceText}</span>
+          </span>
+          <span class="lock-tag"></span>
+        `;
+        btn.addEventListener("click", () => handleAnswer(choiceText, btn));
+        elOptionsBox.appendChild(btn);
+      });
+
+      timerId = setInterval(() => {
+        timeLeft -= 1;
+        const dropRate = randInt(450, 1900);
+        playersAlive = Math.max(120, playersAlive - dropRate);
+        updateStatsUI();
+
+        if (timeLeft <= 0) {
+          timeLeft = 0;
+          elTimerBadge.textContent = "0";
+          elTimerBadge.classList.add("urgent");
+          revealAndResolveQuestion();
+        } else {
+          elTimerBadge.textContent = `${timeLeft}`;
+          if (timeLeft <= 3) {
+            elTimerBadge.classList.add("urgent");
+          }
+        }
+      }, 1000);
+    }
+
+    function lockAllOptionsPermanently() {
+      const buttons = elOptionsBox.querySelectorAll(".opt-btn");
+      buttons.forEach((b) => {
+        b.disabled = true;
+      });
+    }
+
+    function highlightCorrectOption() {
+      const q = questions[currentIndex];
+      const buttons = elOptionsBox.querySelectorAll(".opt-btn");
+      buttons.forEach((b) => {
+        if (b.dataset.choice === q.answer) {
+          b.classList.add("correct");
+        }
+      });
+    }
+
+    // Begitu diklik, jawaban langsung digembok dan nggak bisa diubah/dipilih lagi
+    function handleAnswer(selectedText, btnEl) {
+      if (answeredCurrent || selectedChoiceText !== null) return;
+      selectedChoiceText = selectedText;
+
+      lockAllOptionsPermanently();
+      btnEl.classList.add("locked-choice");
+      const tagEl = btnEl.querySelector(".lock-tag");
+      if (tagEl) tagEl.textContent = "🔒 Tergembok";
+
+      const ruleEl = document.getElementById("activeRuleStrip");
+      if (ruleEl) ruleEl.textContent = `🔒 Jawaban "${selectedText}" sudah digembok! Menunggu hasil...`;
+
+      elFeedbackBar.className = "feedback-bar show ok";
+      elFeedbackBar.textContent = `🔒 Jawaban "${selectedText}" digembok! Nggak bisa diganti lagi.`;
+    }
+
+    function revealAndResolveQuestion() {
+      if (answeredCurrent) return;
+      answeredCurrent = true;
+      clearTimers();
+      lockAllOptionsPermanently();
+
+      const q = questions[currentIndex];
+      const buttons = elOptionsBox.querySelectorAll(".opt-btn");
+      const toastEl = document.getElementById("coinGainToast");
+      const statusTitleEl = document.getElementById("statusTitle");
+      const statusSubEl = document.getElementById("statusSub");
+
+      // Jika belum sempat milih sampai waktu habis -> langsung gagal & muncul roast
+      if (!selectedChoiceText) {
+        q._isCorrect = false;
+        highlightCorrectOption();
+        playersAlive = Math.max(100, playersAlive - randInt(1500, 3500));
+        updateStatsUI();
+        renderSteps();
+        if (statusTitleEl) statusTitleEl.textContent = "⌛ Waktu Habis • Gugur!";
+        if (statusSubEl) statusSubEl.innerHTML = `Belum mengunci jawaban`;
+        elFeedbackBar.className = "feedback-bar show bad";
+        elFeedbackBar.textContent = `⌛ Waktu habis! Jawaban benar: ${q.answer}. ${q.explanation}`;
+
+        advanceId = setTimeout(() => {
+          showFailedRoast("Kehabisan waktu sebelum mengunci jawaban!");
+        }, 1200);
+        return;
+      }
+
+      const isRight = selectedChoiceText === q.answer;
+      q._isCorrect = isRight;
+
+      let chosenBtn = null;
+      buttons.forEach((b) => {
+        if (b.dataset.choice === selectedChoiceText) {
+          chosenBtn = b;
+        }
+      });
+
+      if (isRight) {
+        if (chosenBtn) {
+          chosenBtn.classList.remove("locked-choice");
+          chosenBtn.classList.add("correct");
+          const tagEl = chosenBtn.querySelector(".lock-tag");
+          if (tagEl) tagEl.textContent = "✓ Benar";
+        }
+        correctCount += 1;
+        potentialCoins += COIN_PER_CORRECT;
+        playersAlive = Math.max(100, playersAlive - randInt(300, 900));
+
+        if (toastEl) {
+          toastEl.textContent = `+${formatNum(COIN_PER_CORRECT)} Potensi Koin!`;
+          toastEl.classList.add("show");
+        }
+        if (statusTitleEl) statusTitleEl.textContent = "✓ Jawabanmu Benar!";
+        if (statusSubEl) statusSubEl.innerHTML = `Potensi koin bertambah jadi <b>${formatNum(potentialCoins)} Koin</b>`;
+        elFeedbackBar.className = "feedback-bar show ok";
+        elFeedbackBar.textContent = `✓ Benar! Potensi koin +${formatNum(COIN_PER_CORRECT)}. ${q.explanation}`;
+
+        scheduleNext();
+      } else {
+        // Salah jawab -> langsung berhenti (nggak bisa lanjut) dan muncul "oon banget belajar lagi dek"
+        if (chosenBtn) {
+          chosenBtn.classList.remove("locked-choice");
+          chosenBtn.classList.add("wrong");
+          const tagEl = chosenBtn.querySelector(".lock-tag");
+          if (tagEl) tagEl.textContent = "✕ Salah";
+        }
+        highlightCorrectOption();
+        playersAlive = Math.max(100, playersAlive - randInt(1200, 3200));
+        updateStatsUI();
+        renderSteps();
+
+        if (statusTitleEl) statusTitleEl.textContent = "✕ Jawabanmu Salah!";
+        if (statusSubEl) statusSubEl.innerHTML = `Langsung gugur di Soal ${currentIndex + 1}/${TOTAL_QUESTIONS}`;
+        elFeedbackBar.className = "feedback-bar show bad";
+        elFeedbackBar.textContent = `✕ Salah! Jawaban benar: ${q.answer}. ${q.explanation}`;
+
+        advanceId = setTimeout(() => {
+          showFailedRoast(`Salah di Soal ${currentIndex + 1}/${TOTAL_QUESTIONS}: "${q.prompt}" (Jawaban benar: ${q.answer}).`);
+        }, 1200);
+      }
+    }
+
+    function scheduleNext() {
+      advanceId = setTimeout(() => {
+        if (currentIndex + 1 < TOTAL_QUESTIONS) {
+          currentIndex += 1;
+          loadQuestion();
+        } else {
+          showFinalResult();
+        }
+      }, 1400);
+    }
+
+    const failRoastPool = [
+      {
+        emoji: "🤡",
+        headline: "oon banget belajar lagi dek",
+        sub: "Langsung gugur dan nggak bisa lanjut. Sesi berikutnya otomatis pakai set soal baru yang beda!"
+      },
+      {
+        emoji: "💀",
+        headline: "waduh kena gembok sial",
+        sub: "Salah satu langkah langsung tamat. Coba lagi pakai paket soal segar!"
+      },
+      {
+        emoji: "🫠",
+        headline: "hampir aja padahal, eh meleset",
+        sub: "Kena jebakan pas di detik krusial. Reset dan gas sesi baru!"
+      },
+      {
+        emoji: "📉",
+        headline: "grafik langsung nyungsep bro",
+        sub: "Salah kunci jawaban bikin sesi berhenti. Mulai lagi dengan soal beda!"
+      }
+    ];
+
+    const winCelebratePool = [
+      {
+        emoji: "🏆",
+        headline: "mantap jiwa tembus 10/10!",
+        sub: "Semua soal berhasil ditaklukin tanpa sekali pun gugur!"
+      },
+      {
+        emoji: "🔥",
+        headline: "gacor parah sapu bersih 10/10!",
+        sub: "Fokus penuh sampai akhir, skor maksimal diamankan!"
+      },
+      {
+        emoji: "👑",
+        headline: "auto juara kuis receh 10/10!",
+        sub: "Sapu bersih 10 soal beruntun dengan mulus!"
+      }
+    ];
+
+    let lastFailIdx = -1;
+    let lastWinIdx = -1;
+
+    function pickNonRepeatingIndex(len, lastIdx) {
+      if (len <= 1) return 0;
+      let idx = randInt(0, len - 1);
+      if (idx === lastIdx) {
+        idx = (idx + 1) % len;
+      }
+      return idx;
+    }
+
+    function showFailedRoast(reasonText) {
+      clearTimers();
+      elQuiz.classList.add("hidden");
+      elResult.classList.remove("hidden");
+
+      const fIdx = pickNonRepeatingIndex(failRoastPool.length, lastFailIdx);
+      lastFailIdx = fIdx;
+      const item = failRoastPool[fIdx];
+
+      const elEmoji = document.getElementById("resEmoji");
+      const elBanner = document.getElementById("resBanner");
+      const elSub = document.getElementById("resSub");
+      const elSummary = document.getElementById("resSummary");
+
+      elEmoji.textContent = item.emoji;
+      elBanner.className = "roast-banner";
+      elBanner.textContent = item.headline;
+      elSub.textContent = `${item.sub} (${reasonText})`;
+      elSummary.textContent = `${correctCount}/${TOTAL_QUESTIONS} Benar • ${formatNum(potentialCoins)} Koin`;
+    }
+
+    function showFinalResult() {
+      clearTimers();
+      elQuiz.classList.add("hidden");
+      elResult.classList.remove("hidden");
+
+      const wIdx = pickNonRepeatingIndex(winCelebratePool.length, lastWinIdx);
+      lastWinIdx = wIdx;
+      const item = winCelebratePool[wIdx];
+
+      const elEmoji = document.getElementById("resEmoji");
+      const elBanner = document.getElementById("resBanner");
+      const elSub = document.getElementById("resSub");
+      const elSummary = document.getElementById("resSummary");
+
+      elEmoji.textContent = item.emoji;
+      elBanner.className = "win-banner";
+      elBanner.textContent = item.headline;
+      elSub.textContent = item.sub;
+      elSummary.textContent = `${correctCount}/${TOTAL_QUESTIONS} Benar • ${formatNum(potentialCoins)} Koin`;
+    }
+
+    function resetToLobby() {
+      clearTimers();
+      elQuiz.classList.add("hidden");
+      elResult.classList.add("hidden");
+      elLobby.classList.remove("hidden");
+    }
+
+    const botNicks = ["r***3", "s***w", "m***h", "a***z", "d***n", "k***a", "b***u"];
+    const botLines = [
+      "Sekali klik langsung kegembok!",
+      "Awas salah langsung gugur wok",
+      "1.000 soal lucu nih tiap mulai",
+      "Ada soal jadwal promo juga!",
+      "Gas terus jangan sampai kena gembok!",
+      "Jangan sampai oon belajar lagi dek"
+    ];
+
+    function appendChat(nick, text) {
+      const item = document.createElement("div");
+      item.className = "chat-bubble";
+      item.innerHTML = `<span class="nick">${nick}:</span><span>${text}</span>`;
+      elChatList.appendChild(item);
+      if (elChatList.children.length > 12) {
+        elChatList.removeChild(elChatList.firstChild);
+      }
+      elChatList.scrollTop = elChatList.scrollHeight;
+    }
+
+    function seedChat() {
+      elChatList.innerHTML = "";
+      appendChat("r***3", "Sekali klik langsung kegembok!");
+      appendChat("s***w", "Awas salah langsung gugur wok");
+      appendChat("m***h", "1.000 soal lucu nih tiap mulai");
+    }
+
+    elChatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const val = elChatInput.value.trim();
+      if (!val) return;
+      appendChat("Kamu", val);
+      elChatInput.value = "";
+    });
+
+    document.getElementById("btnStart").addEventListener("click", startQuiz);
+    document.getElementById("btnRestart").addEventListener("click", startQuiz);
+    document.getElementById("btnResetTop").addEventListener("click", resetToLobby);
+
+    const bankCountEl = document.getElementById("bankCountLabel");
+    if (bankCountEl) bankCountEl.textContent = `${THOUSAND_BANK.length} SOAL`;
+    seedChat();
+    chatTimerId = setInterval(() => {
+      appendChat(pickRandom(botNicks), pickRandom(botLines));
+    }, 2800);
+  </script>
+</body>
+</html>
